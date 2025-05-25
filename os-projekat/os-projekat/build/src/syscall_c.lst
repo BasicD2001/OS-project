@@ -1,0 +1,1442 @@
+GAS LISTING /tmp/ccyeCDOs.s 			page 1
+
+
+   1              		.file	"syscall_c.cpp"
+   2              		.option pic
+   3              		.option norelax
+   4              		.text
+   5              	.Ltext0:
+   6              		.align	2
+   7              		.globl	_Z9mem_allocm
+   9              	_Z9mem_allocm:
+  10              	.LFB24:
+  11              		.file 1 "src/syscall_c.cpp"
+   1:src/syscall_c.cpp **** //
+   2:src/syscall_c.cpp **** // Created by os on 3/3/25.
+   3:src/syscall_c.cpp **** //
+   4:src/syscall_c.cpp **** 
+   5:src/syscall_c.cpp **** #include "../h/syscall_c.hpp"
+   6:src/syscall_c.cpp **** #include "../h/SemaforKernel.hpp"
+   7:src/syscall_c.cpp **** #include "../test/printing.hpp"
+   8:src/syscall_c.cpp **** #include "../lib/mem.h"
+   9:src/syscall_c.cpp **** 
+  10:src/syscall_c.cpp **** 
+  11:src/syscall_c.cpp **** void* mem_alloc(size_t size){
+  12              		.loc 1 11 29
+  13              		.cfi_startproc
+  14              	.LVL0:
+  15 0000 130101FE 		addi	sp,sp,-32
+  16              		.cfi_def_cfa_offset 32
+  17 0004 233C8100 		sd	s0,24(sp)
+  18              		.cfi_offset 8, -8
+  19 0008 13040102 		addi	s0,sp,32
+  20              		.cfi_def_cfa 8, 0
+  12:src/syscall_c.cpp ****     size_t volatile num=(size+MEM_BLOCK_SIZE-1)/MEM_BLOCK_SIZE;
+  21              		.loc 1 12 5
+  22              		.loc 1 12 45 is_stmt 0
+  23 000c 1305F503 		addi	a0,a0,63
+  24              	.LVL1:
+  25              		.loc 1 12 48
+  26 0010 13556500 		srli	a0,a0,6
+  27              	.LVL2:
+  28              		.loc 1 12 21
+  29 0014 2334A4FE 		sd	a0,-24(s0)
+  13:src/syscall_c.cpp ****     uint64 volatile code=0x01;
+  30              		.loc 1 13 5 is_stmt 1
+  31              		.loc 1 13 21 is_stmt 0
+  32 0018 93071000 		li	a5,1
+  33 001c 2330F4FE 		sd	a5,-32(s0)
+  14:src/syscall_c.cpp **** 
+  15:src/syscall_c.cpp ****     __asm__ volatile("mv a0, %0" : : "r" (code));
+  34              		.loc 1 15 5 is_stmt 1
+  35              		.loc 1 15 43 is_stmt 0
+  36 0020 833704FE 		ld	a5,-32(s0)
+  37              		.loc 1 15 49
+  38              	#APP
+  39              	# 15 "src/syscall_c.cpp" 1
+  16              	    __asm__ volatile("mv a1, %0" : : "r" (num));
+  40              		mv a0, a5
+  41              	# 0 "" 2
+  42              		.loc 1 16 5 is_stmt 1
+GAS LISTING /tmp/ccyeCDOs.s 			page 2
+
+
+  43              		.loc 1 16 43 is_stmt 0
+  44              	#NO_APP
+  45 0028 833784FE 		ld	a5,-24(s0)
+  46              		.loc 1 16 48
+  47              	#APP
+  48              	# 16 "src/syscall_c.cpp" 1
+  17              	
+  18:src/syscall_c.cpp ****     __asm__ volatile("ecall");
+  49              		mv a1, a5
+  50              	# 0 "" 2
+  51              		.loc 1 18 5 is_stmt 1
+  52              		.loc 1 18 30 is_stmt 0
+  53              	# 18 "src/syscall_c.cpp" 1
+  19              	
+  20:src/syscall_c.cpp ****     void *ret;
+  54              		ecall
+  55              	# 0 "" 2
+  56              		.loc 1 20 5 is_stmt 1
+  21:src/syscall_c.cpp ****     __asm__ volatile("mv %0, a0" : "=r" (ret));
+  57              		.loc 1 21 5
+  58              		.loc 1 21 47 is_stmt 0
+  59              	# 21 "src/syscall_c.cpp" 1
+  22              	    return ret;
+  60              		mv a0, a0
+  61              	# 0 "" 2
+  62              	.LVL3:
+  63              		.loc 1 22 5 is_stmt 1
+  23:src/syscall_c.cpp **** }
+  64              		.loc 1 23 1 is_stmt 0
+  65              	#NO_APP
+  66 0038 03348101 		ld	s0,24(sp)
+  67              		.cfi_restore 8
+  68              		.cfi_def_cfa 2, 32
+  69 003c 13010102 		addi	sp,sp,32
+  70              		.cfi_def_cfa_offset 0
+  71 0040 67800000 		jr	ra
+  72              		.cfi_endproc
+  73              	.LFE24:
+  75              		.align	2
+  76              		.globl	_Z8mem_freePv
+  78              	_Z8mem_freePv:
+  79              	.LFB25:
+  24:src/syscall_c.cpp **** 
+  25:src/syscall_c.cpp **** int mem_free(void* addr){
+  80              		.loc 1 25 25 is_stmt 1
+  81              		.cfi_startproc
+  82              	.LVL4:
+  83 0044 130101FE 		addi	sp,sp,-32
+  84              		.cfi_def_cfa_offset 32
+  85 0048 233C8100 		sd	s0,24(sp)
+  86              		.cfi_offset 8, -8
+  87 004c 13040102 		addi	s0,sp,32
+  88              		.cfi_def_cfa 8, 0
+  26:src/syscall_c.cpp **** 
+  27:src/syscall_c.cpp ****     uint64 volatile code=0x01;
+  89              		.loc 1 27 5
+  90              		.loc 1 27 21 is_stmt 0
+GAS LISTING /tmp/ccyeCDOs.s 			page 3
+
+
+  91 0050 93071000 		li	a5,1
+  92 0054 2334F4FE 		sd	a5,-24(s0)
+  28:src/syscall_c.cpp ****     uint64 volatile add=(uint64)addr;
+  93              		.loc 1 28 5 is_stmt 1
+  94              		.loc 1 28 21 is_stmt 0
+  95 0058 2330A4FE 		sd	a0,-32(s0)
+  29:src/syscall_c.cpp **** 
+  30:src/syscall_c.cpp ****     __asm__ volatile("mv a0, %0" : : "r" (code));
+  96              		.loc 1 30 5 is_stmt 1
+  97              		.loc 1 30 43 is_stmt 0
+  98 005c 833784FE 		ld	a5,-24(s0)
+  99              		.loc 1 30 49
+ 100              	#APP
+ 101              	# 30 "src/syscall_c.cpp" 1
+  31              	    __asm__ volatile("mv a1, %0" : : "r" (add));
+ 102              		mv a0, a5
+ 103              	# 0 "" 2
+ 104              		.loc 1 31 5 is_stmt 1
+ 105              		.loc 1 31 43 is_stmt 0
+ 106              	#NO_APP
+ 107 0064 833704FE 		ld	a5,-32(s0)
+ 108              		.loc 1 31 48
+ 109              	#APP
+ 110              	# 31 "src/syscall_c.cpp" 1
+  32              	
+  33:src/syscall_c.cpp ****     __asm__ volatile("ecall");
+ 111              		mv a1, a5
+ 112              	# 0 "" 2
+ 113              		.loc 1 33 5 is_stmt 1
+ 114              		.loc 1 33 30 is_stmt 0
+ 115              	# 33 "src/syscall_c.cpp" 1
+  34              	
+  35:src/syscall_c.cpp ****     int ret;
+ 116              		ecall
+ 117              	# 0 "" 2
+ 118              		.loc 1 35 5 is_stmt 1
+  36:src/syscall_c.cpp ****     __asm__ volatile("mv %0, a0" : "=r" (ret));
+ 119              		.loc 1 36 5
+ 120              		.loc 1 36 47 is_stmt 0
+ 121              	# 36 "src/syscall_c.cpp" 1
+  37              	    return ret;
+ 122              		mv a0, a0
+ 123              	# 0 "" 2
+ 124              	.LVL5:
+ 125              		.loc 1 37 5 is_stmt 1
+  38:src/syscall_c.cpp **** }
+ 126              		.loc 1 38 1 is_stmt 0
+ 127              	#NO_APP
+ 128 0074 1B050500 		sext.w	a0,a0
+ 129 0078 03348101 		ld	s0,24(sp)
+ 130              		.cfi_restore 8
+ 131              		.cfi_def_cfa 2, 32
+ 132 007c 13010102 		addi	sp,sp,32
+ 133              		.cfi_def_cfa_offset 0
+ 134              	.LVL6:
+ 135 0080 67800000 		jr	ra
+ 136              		.cfi_endproc
+GAS LISTING /tmp/ccyeCDOs.s 			page 4
+
+
+ 137              	.LFE25:
+ 139              		.align	2
+ 140              		.globl	_Z13thread_createPP3TCBPFvPvES2_
+ 142              	_Z13thread_createPP3TCBPFvPvES2_:
+ 143              	.LFB26:
+  39:src/syscall_c.cpp **** 
+  40:src/syscall_c.cpp **** 
+  41:src/syscall_c.cpp **** int thread_create(thread_t* handle,void(*start_routine)(void*), void* arg) {
+ 144              		.loc 1 41 76 is_stmt 1
+ 145              		.cfi_startproc
+ 146              	.LVL7:
+ 147 0084 130101FC 		addi	sp,sp,-64
+ 148              		.cfi_def_cfa_offset 64
+ 149 0088 233C1102 		sd	ra,56(sp)
+ 150 008c 23388102 		sd	s0,48(sp)
+ 151              		.cfi_offset 1, -8
+ 152              		.cfi_offset 8, -16
+ 153 0090 13040104 		addi	s0,sp,64
+ 154              		.cfi_def_cfa 8, 0
+  42:src/syscall_c.cpp **** 
+  43:src/syscall_c.cpp ****   uint64 volatile code=0x11;
+ 155              		.loc 1 43 3
+ 156              		.loc 1 43 19 is_stmt 0
+ 157 0094 93071001 		li	a5,17
+ 158 0098 2334F4FE 		sd	a5,-24(s0)
+  44:src/syscall_c.cpp ****   uint64 volatile  handleC=(uint64)handle;
+ 159              		.loc 1 44 3 is_stmt 1
+ 160              		.loc 1 44 20 is_stmt 0
+ 161 009c 2330A4FE 		sd	a0,-32(s0)
+  45:src/syscall_c.cpp ****   uint64 volatile functionC=(uint64)start_routine;
+ 162              		.loc 1 45 3 is_stmt 1
+ 163              		.loc 1 45 19 is_stmt 0
+ 164 00a0 233CB4FC 		sd	a1,-40(s0)
+  46:src/syscall_c.cpp ****   uint64 volatile  argC=(uint64)arg;
+ 165              		.loc 1 46 3 is_stmt 1
+ 166              		.loc 1 46 20 is_stmt 0
+ 167 00a4 2338C4FC 		sd	a2,-48(s0)
+  47:src/syscall_c.cpp ****   uint64* volatile stack=new uint64[TCB::STACK_SIZE];
+ 168              		.loc 1 47 3 is_stmt 1
+ 169              		.loc 1 47 52 is_stmt 0
+ 170 00a8 37250000 		li	a0,8192
+ 171              	.LVL8:
+ 172 00ac 97000000 		call	_Znam@plt
+ 172      E7800000 
+ 173              	.LVL9:
+ 174 00b4 2334A4FC 		sd	a0,-56(s0)
+ 175              	.LVL10:
+  48:src/syscall_c.cpp **** 
+  49:src/syscall_c.cpp **** 
+  50:src/syscall_c.cpp ****   __asm__ volatile("mv a0, %0" : : "r" (code));
+ 176              		.loc 1 50 3 is_stmt 1
+ 177              		.loc 1 50 41 is_stmt 0
+ 178 00b8 833784FE 		ld	a5,-24(s0)
+ 179              		.loc 1 50 47
+ 180              	#APP
+ 181              	# 50 "src/syscall_c.cpp" 1
+  51              	  __asm__ volatile("mv a1, %0" : : "r" (handleC));
+GAS LISTING /tmp/ccyeCDOs.s 			page 5
+
+
+ 182              		mv a0, a5
+ 183              	# 0 "" 2
+ 184              		.loc 1 51 3 is_stmt 1
+ 185              		.loc 1 51 41 is_stmt 0
+ 186              	#NO_APP
+ 187 00c0 833704FE 		ld	a5,-32(s0)
+ 188              		.loc 1 51 50
+ 189              	#APP
+ 190              	# 51 "src/syscall_c.cpp" 1
+  52              	  __asm__ volatile("mv a2, %0" : : "r" (functionC));
+ 191              		mv a1, a5
+ 192              	# 0 "" 2
+ 193              		.loc 1 52 3 is_stmt 1
+ 194              		.loc 1 52 41 is_stmt 0
+ 195              	#NO_APP
+ 196 00c8 833784FD 		ld	a5,-40(s0)
+ 197              		.loc 1 52 52
+ 198              	#APP
+ 199              	# 52 "src/syscall_c.cpp" 1
+  53              	   __asm__ volatile("mv a3, %0" : : "r" (argC));
+ 200              		mv a2, a5
+ 201              	# 0 "" 2
+ 202              		.loc 1 53 4 is_stmt 1
+ 203              		.loc 1 53 42 is_stmt 0
+ 204              	#NO_APP
+ 205 00d0 833704FD 		ld	a5,-48(s0)
+ 206              		.loc 1 53 48
+ 207              	#APP
+ 208              	# 53 "src/syscall_c.cpp" 1
+  54              	   __asm__ volatile("mv a4, %[stackp]" : : [stackp] "r" ((uint64)stack));
+ 209              		mv a3, a5
+ 210              	# 0 "" 2
+ 211              		.loc 1 54 4 is_stmt 1
+ 212              		.loc 1 54 73 is_stmt 0
+ 213              	#NO_APP
+ 214 00d8 833784FC 		ld	a5,-56(s0)
+ 215              	#APP
+ 216              	# 54 "src/syscall_c.cpp" 1
+  55              	
+  56:src/syscall_c.cpp ****   __asm__ volatile("ecall");
+ 217              		mv a4, a5
+ 218              	# 0 "" 2
+ 219              		.loc 1 56 3 is_stmt 1
+ 220              		.loc 1 56 28 is_stmt 0
+ 221              	# 56 "src/syscall_c.cpp" 1
+  57              	
+  58:src/syscall_c.cpp ****     int ret;
+ 222              		ecall
+ 223              	# 0 "" 2
+ 224              		.loc 1 58 5 is_stmt 1
+  59:src/syscall_c.cpp ****     __asm__ volatile("mv %0, a0" : "=r" (ret));
+ 225              		.loc 1 59 5
+ 226              		.loc 1 59 47 is_stmt 0
+ 227              	# 59 "src/syscall_c.cpp" 1
+  60              	    return ret;
+ 228              		mv a0, a0
+ 229              	# 0 "" 2
+GAS LISTING /tmp/ccyeCDOs.s 			page 6
+
+
+ 230              	.LVL11:
+ 231              		.loc 1 60 5 is_stmt 1
+  61:src/syscall_c.cpp **** 
+  62:src/syscall_c.cpp **** }
+ 232              		.loc 1 62 1 is_stmt 0
+ 233              	#NO_APP
+ 234 00e8 1B050500 		sext.w	a0,a0
+ 235 00ec 83308103 		ld	ra,56(sp)
+ 236              		.cfi_restore 1
+ 237 00f0 03340103 		ld	s0,48(sp)
+ 238              		.cfi_restore 8
+ 239              		.cfi_def_cfa 2, 64
+ 240 00f4 13010104 		addi	sp,sp,64
+ 241              		.cfi_def_cfa_offset 0
+ 242 00f8 67800000 		jr	ra
+ 243              		.cfi_endproc
+ 244              	.LFE26:
+ 246              		.align	2
+ 247              		.globl	_Z11thread_exitv
+ 249              	_Z11thread_exitv:
+ 250              	.LFB27:
+  63:src/syscall_c.cpp **** 
+  64:src/syscall_c.cpp **** int thread_exit(){
+ 251              		.loc 1 64 18 is_stmt 1
+ 252              		.cfi_startproc
+ 253 00fc 130101FE 		addi	sp,sp,-32
+ 254              		.cfi_def_cfa_offset 32
+ 255 0100 233C8100 		sd	s0,24(sp)
+ 256              		.cfi_offset 8, -8
+ 257 0104 13040102 		addi	s0,sp,32
+ 258              		.cfi_def_cfa 8, 0
+  65:src/syscall_c.cpp ****     uint64  volatile code=0x12;
+ 259              		.loc 1 65 5
+ 260              		.loc 1 65 22 is_stmt 0
+ 261 0108 93072001 		li	a5,18
+ 262 010c 2334F4FE 		sd	a5,-24(s0)
+  66:src/syscall_c.cpp **** 
+  67:src/syscall_c.cpp ****     __asm__ volatile("mv a0, %0" : : "r" (code));
+ 263              		.loc 1 67 5 is_stmt 1
+ 264              		.loc 1 67 43 is_stmt 0
+ 265 0110 833784FE 		ld	a5,-24(s0)
+ 266              		.loc 1 67 49
+ 267              	#APP
+ 268              	# 67 "src/syscall_c.cpp" 1
+  68              	
+  69:src/syscall_c.cpp ****     __asm__ volatile("ecall");
+ 269              		mv a0, a5
+ 270              	# 0 "" 2
+ 271              		.loc 1 69 5 is_stmt 1
+ 272              		.loc 1 69 30 is_stmt 0
+ 273              	# 69 "src/syscall_c.cpp" 1
+  70              	
+  71:src/syscall_c.cpp ****     int ret;
+ 274              		ecall
+ 275              	# 0 "" 2
+ 276              		.loc 1 71 5 is_stmt 1
+  72:src/syscall_c.cpp ****     __asm__ volatile("mv %0, a0" : "=r" (ret));
+GAS LISTING /tmp/ccyeCDOs.s 			page 7
+
+
+ 277              		.loc 1 72 5
+ 278              		.loc 1 72 47 is_stmt 0
+ 279              	# 72 "src/syscall_c.cpp" 1
+  73              	    return ret;
+ 280              		mv a0, a0
+ 281              	# 0 "" 2
+ 282              	.LVL12:
+ 283              		.loc 1 73 5 is_stmt 1
+  74:src/syscall_c.cpp **** 
+  75:src/syscall_c.cpp **** }
+ 284              		.loc 1 75 1 is_stmt 0
+ 285              	#NO_APP
+ 286 0120 1B050500 		sext.w	a0,a0
+ 287 0124 03348101 		ld	s0,24(sp)
+ 288              		.cfi_restore 8
+ 289              		.cfi_def_cfa 2, 32
+ 290 0128 13010102 		addi	sp,sp,32
+ 291              		.cfi_def_cfa_offset 0
+ 292 012c 67800000 		jr	ra
+ 293              		.cfi_endproc
+ 294              	.LFE27:
+ 296              		.align	2
+ 297              		.globl	_Z15thread_dispatchv
+ 299              	_Z15thread_dispatchv:
+ 300              	.LFB28:
+  76:src/syscall_c.cpp **** 
+  77:src/syscall_c.cpp **** void thread_dispatch(){
+ 301              		.loc 1 77 23 is_stmt 1
+ 302              		.cfi_startproc
+ 303 0130 130101FE 		addi	sp,sp,-32
+ 304              		.cfi_def_cfa_offset 32
+ 305 0134 233C8100 		sd	s0,24(sp)
+ 306              		.cfi_offset 8, -8
+ 307 0138 13040102 		addi	s0,sp,32
+ 308              		.cfi_def_cfa 8, 0
+  78:src/syscall_c.cpp ****     uint64 volatile code=0x13;
+ 309              		.loc 1 78 5
+ 310              		.loc 1 78 21 is_stmt 0
+ 311 013c 93073001 		li	a5,19
+ 312 0140 2334F4FE 		sd	a5,-24(s0)
+  79:src/syscall_c.cpp **** 
+  80:src/syscall_c.cpp ****     __asm__ volatile("mv a0, %0" : : "r" (code));
+ 313              		.loc 1 80 5 is_stmt 1
+ 314              		.loc 1 80 43 is_stmt 0
+ 315 0144 833784FE 		ld	a5,-24(s0)
+ 316              		.loc 1 80 49
+ 317              	#APP
+ 318              	# 80 "src/syscall_c.cpp" 1
+  81              	
+  82:src/syscall_c.cpp ****     __asm__ volatile("ecall");
+ 319              		mv a0, a5
+ 320              	# 0 "" 2
+ 321              		.loc 1 82 5 is_stmt 1
+ 322              		.loc 1 82 30 is_stmt 0
+ 323              	# 82 "src/syscall_c.cpp" 1
+  83              	
+  84:src/syscall_c.cpp **** }
+GAS LISTING /tmp/ccyeCDOs.s 			page 8
+
+
+ 324              		ecall
+ 325              	# 0 "" 2
+ 326              		.loc 1 84 1
+ 327              	#NO_APP
+ 328 0150 03348101 		ld	s0,24(sp)
+ 329              		.cfi_restore 8
+ 330              		.cfi_def_cfa 2, 32
+ 331 0154 13010102 		addi	sp,sp,32
+ 332              		.cfi_def_cfa_offset 0
+ 333 0158 67800000 		jr	ra
+ 334              		.cfi_endproc
+ 335              	.LFE28:
+ 337              		.align	2
+ 338              		.globl	_Z8sem_openPP13SemaforKernelj
+ 340              	_Z8sem_openPP13SemaforKernelj:
+ 341              	.LFB29:
+  85:src/syscall_c.cpp **** 
+  86:src/syscall_c.cpp **** int sem_open (sem_t* handle, unsigned init){
+ 342              		.loc 1 86 44 is_stmt 1
+ 343              		.cfi_startproc
+ 344              	.LVL13:
+ 345 015c 130101FD 		addi	sp,sp,-48
+ 346              		.cfi_def_cfa_offset 48
+ 347 0160 23348102 		sd	s0,40(sp)
+ 348              		.cfi_offset 8, -8
+ 349 0164 13040103 		addi	s0,sp,48
+ 350              		.cfi_def_cfa 8, 0
+  87:src/syscall_c.cpp ****   uint64 volatile code=0x21;
+ 351              		.loc 1 87 3
+ 352              		.loc 1 87 19 is_stmt 0
+ 353 0168 93071002 		li	a5,33
+ 354 016c 2334F4FE 		sd	a5,-24(s0)
+  88:src/syscall_c.cpp ****   uint64 volatile handleC=(uint64)handle;
+ 355              		.loc 1 88 3 is_stmt 1
+ 356              		.loc 1 88 19 is_stmt 0
+ 357 0170 2330A4FE 		sd	a0,-32(s0)
+  89:src/syscall_c.cpp ****   uint64 volatile initC=(uint64)init;
+ 358              		.loc 1 89 3 is_stmt 1
+ 359              		.loc 1 89 25 is_stmt 0
+ 360 0174 93950502 		slli	a1,a1,32
+ 361              	.LVL14:
+ 362 0178 93D50502 		srli	a1,a1,32
+ 363              		.loc 1 89 19
+ 364 017c 233CB4FC 		sd	a1,-40(s0)
+  90:src/syscall_c.cpp **** 
+  91:src/syscall_c.cpp ****     __asm__ volatile("mv a0, %0" : : "r" (code));
+ 365              		.loc 1 91 5 is_stmt 1
+ 366              		.loc 1 91 43 is_stmt 0
+ 367 0180 833784FE 		ld	a5,-24(s0)
+ 368              		.loc 1 91 49
+ 369              	#APP
+ 370              	# 91 "src/syscall_c.cpp" 1
+  92              	    __asm__ volatile("mv a1, %0" : : "r" (handleC));
+ 371              		mv a0, a5
+ 372              	# 0 "" 2
+ 373              		.loc 1 92 5 is_stmt 1
+ 374              		.loc 1 92 43 is_stmt 0
+GAS LISTING /tmp/ccyeCDOs.s 			page 9
+
+
+ 375              	#NO_APP
+ 376 0188 833704FE 		ld	a5,-32(s0)
+ 377              		.loc 1 92 52
+ 378              	#APP
+ 379              	# 92 "src/syscall_c.cpp" 1
+  93              	    __asm__ volatile("mv a2, %0" : : "r" (initC));
+ 380              		mv a1, a5
+ 381              	# 0 "" 2
+ 382              		.loc 1 93 5 is_stmt 1
+ 383              		.loc 1 93 43 is_stmt 0
+ 384              	#NO_APP
+ 385 0190 833784FD 		ld	a5,-40(s0)
+ 386              		.loc 1 93 50
+ 387              	#APP
+ 388              	# 93 "src/syscall_c.cpp" 1
+  94              	
+  95:src/syscall_c.cpp ****     __asm__ volatile("ecall");
+ 389              		mv a2, a5
+ 390              	# 0 "" 2
+ 391              		.loc 1 95 5 is_stmt 1
+ 392              		.loc 1 95 30 is_stmt 0
+ 393              	# 95 "src/syscall_c.cpp" 1
+  96              	
+  97:src/syscall_c.cpp ****     int ret;
+ 394              		ecall
+ 395              	# 0 "" 2
+ 396              		.loc 1 97 5 is_stmt 1
+  98:src/syscall_c.cpp ****     __asm__ volatile("mv %0, a0" : "=r" (ret));
+ 397              		.loc 1 98 5
+ 398              		.loc 1 98 47 is_stmt 0
+ 399              	# 98 "src/syscall_c.cpp" 1
+  99              	    return ret;
+ 400              		mv a0, a0
+ 401              	# 0 "" 2
+ 402              	.LVL15:
+ 403              		.loc 1 99 5 is_stmt 1
+ 100:src/syscall_c.cpp **** 
+ 101:src/syscall_c.cpp **** }
+ 404              		.loc 1 101 1 is_stmt 0
+ 405              	#NO_APP
+ 406 01a0 1B050500 		sext.w	a0,a0
+ 407 01a4 03348102 		ld	s0,40(sp)
+ 408              		.cfi_restore 8
+ 409              		.cfi_def_cfa 2, 48
+ 410 01a8 13010103 		addi	sp,sp,48
+ 411              		.cfi_def_cfa_offset 0
+ 412 01ac 67800000 		jr	ra
+ 413              		.cfi_endproc
+ 414              	.LFE29:
+ 416              		.align	2
+ 417              		.globl	_Z9sem_closeP13SemaforKernel
+ 419              	_Z9sem_closeP13SemaforKernel:
+ 420              	.LFB30:
+ 102:src/syscall_c.cpp **** 
+ 103:src/syscall_c.cpp **** int sem_close (sem_t handle){
+ 421              		.loc 1 103 29 is_stmt 1
+ 422              		.cfi_startproc
+GAS LISTING /tmp/ccyeCDOs.s 			page 10
+
+
+ 423              	.LVL16:
+ 104:src/syscall_c.cpp ****   if(!handle) return -1;
+ 424              		.loc 1 104 3
+ 425 01b0 63020504 		beqz	a0,.L15
+ 103:src/syscall_c.cpp ****   if(!handle) return -1;
+ 426              		.loc 1 103 29 is_stmt 0
+ 427 01b4 130101FE 		addi	sp,sp,-32
+ 428              		.cfi_def_cfa_offset 32
+ 429 01b8 233C8100 		sd	s0,24(sp)
+ 430              		.cfi_offset 8, -8
+ 431 01bc 13040102 		addi	s0,sp,32
+ 432              		.cfi_def_cfa 8, 0
+ 105:src/syscall_c.cpp **** 
+ 106:src/syscall_c.cpp ****   uint64 volatile code=0x22;
+ 433              		.loc 1 106 3 is_stmt 1
+ 434              		.loc 1 106 19 is_stmt 0
+ 435 01c0 93072002 		li	a5,34
+ 436 01c4 2334F4FE 		sd	a5,-24(s0)
+ 107:src/syscall_c.cpp ****   uint64 volatile handleC=(uint64)handle;
+ 437              		.loc 1 107 3 is_stmt 1
+ 438              		.loc 1 107 19 is_stmt 0
+ 439 01c8 2330A4FE 		sd	a0,-32(s0)
+ 108:src/syscall_c.cpp **** 
+ 109:src/syscall_c.cpp ****     __asm__ volatile("mv a0, %0" : : "r" (code));
+ 440              		.loc 1 109 5 is_stmt 1
+ 441              		.loc 1 109 43 is_stmt 0
+ 442 01cc 833784FE 		ld	a5,-24(s0)
+ 443              		.loc 1 109 49
+ 444              	#APP
+ 445              	# 109 "src/syscall_c.cpp" 1
+ 110              	    __asm__ volatile("mv a1, %0" : : "r" (handleC));
+ 446              		mv a0, a5
+ 447              	# 0 "" 2
+ 448              		.loc 1 110 5 is_stmt 1
+ 449              		.loc 1 110 43 is_stmt 0
+ 450              	#NO_APP
+ 451 01d4 833704FE 		ld	a5,-32(s0)
+ 452              		.loc 1 110 52
+ 453              	#APP
+ 454              	# 110 "src/syscall_c.cpp" 1
+ 111              	
+ 112:src/syscall_c.cpp ****     __asm__ volatile("ecall");
+ 455              		mv a1, a5
+ 456              	# 0 "" 2
+ 457              		.loc 1 112 5 is_stmt 1
+ 458              		.loc 1 112 30 is_stmt 0
+ 459              	# 112 "src/syscall_c.cpp" 1
+ 113              	
+ 114:src/syscall_c.cpp ****     int ret;
+ 460              		ecall
+ 461              	# 0 "" 2
+ 462              		.loc 1 114 5 is_stmt 1
+ 115:src/syscall_c.cpp ****     __asm__ volatile("mv %0, a0" : "=r" (ret));
+ 463              		.loc 1 115 5
+ 464              		.loc 1 115 47 is_stmt 0
+ 465              	# 115 "src/syscall_c.cpp" 1
+ 116              	    return ret;
+GAS LISTING /tmp/ccyeCDOs.s 			page 11
+
+
+ 466              		mv a0, a0
+ 467              	# 0 "" 2
+ 468              	.LVL17:
+ 469              	#NO_APP
+ 470 01e4 1B050500 		sext.w	a0,a0
+ 471              	.LVL18:
+ 472              		.loc 1 116 5 is_stmt 1
+ 117:src/syscall_c.cpp **** 
+ 118:src/syscall_c.cpp **** }
+ 473              		.loc 1 118 1 is_stmt 0
+ 474 01e8 03348101 		ld	s0,24(sp)
+ 475              		.cfi_restore 8
+ 476              		.cfi_def_cfa 2, 32
+ 477 01ec 13010102 		addi	sp,sp,32
+ 478              		.cfi_def_cfa_offset 0
+ 479              	.LVL19:
+ 480 01f0 67800000 		jr	ra
+ 481              	.LVL20:
+ 482              	.L15:
+ 104:src/syscall_c.cpp **** 
+ 483              		.loc 1 104 23
+ 484 01f4 1305F0FF 		li	a0,-1
+ 485              	.LVL21:
+ 486              		.loc 1 118 1
+ 487 01f8 67800000 		ret
+ 488              		.cfi_endproc
+ 489              	.LFE30:
+ 491              		.align	2
+ 492              		.globl	_Z8sem_waitP13SemaforKernel
+ 494              	_Z8sem_waitP13SemaforKernel:
+ 495              	.LFB31:
+ 119:src/syscall_c.cpp **** 
+ 120:src/syscall_c.cpp **** int sem_wait (sem_t id){
+ 496              		.loc 1 120 24 is_stmt 1
+ 497              		.cfi_startproc
+ 498              	.LVL22:
+ 121:src/syscall_c.cpp ****   if(!id) return -1;
+ 499              		.loc 1 121 3
+ 500 01fc 63020504 		beqz	a0,.L22
+ 120:src/syscall_c.cpp ****   if(!id) return -1;
+ 501              		.loc 1 120 24 is_stmt 0
+ 502 0200 130101FE 		addi	sp,sp,-32
+ 503              		.cfi_def_cfa_offset 32
+ 504 0204 233C8100 		sd	s0,24(sp)
+ 505              		.cfi_offset 8, -8
+ 506 0208 13040102 		addi	s0,sp,32
+ 507              		.cfi_def_cfa 8, 0
+ 122:src/syscall_c.cpp **** 
+ 123:src/syscall_c.cpp ****   uint64 volatile code=0x23;
+ 508              		.loc 1 123 3 is_stmt 1
+ 509              		.loc 1 123 19 is_stmt 0
+ 510 020c 93073002 		li	a5,35
+ 511 0210 2334F4FE 		sd	a5,-24(s0)
+ 124:src/syscall_c.cpp ****   uint64 volatile handleC=(uint64)id;
+ 512              		.loc 1 124 3 is_stmt 1
+ 513              		.loc 1 124 19 is_stmt 0
+ 514 0214 2330A4FE 		sd	a0,-32(s0)
+GAS LISTING /tmp/ccyeCDOs.s 			page 12
+
+
+ 125:src/syscall_c.cpp **** 
+ 126:src/syscall_c.cpp ****   __asm__ volatile("mv a0, %0" : : "r" (code));
+ 515              		.loc 1 126 3 is_stmt 1
+ 516              		.loc 1 126 41 is_stmt 0
+ 517 0218 833784FE 		ld	a5,-24(s0)
+ 518              		.loc 1 126 47
+ 519              	#APP
+ 520              	# 126 "src/syscall_c.cpp" 1
+ 127              	  __asm__ volatile("mv a1, %0" : : "r" (handleC));
+ 521              		mv a0, a5
+ 522              	# 0 "" 2
+ 523              		.loc 1 127 3 is_stmt 1
+ 524              		.loc 1 127 41 is_stmt 0
+ 525              	#NO_APP
+ 526 0220 833704FE 		ld	a5,-32(s0)
+ 527              		.loc 1 127 50
+ 528              	#APP
+ 529              	# 127 "src/syscall_c.cpp" 1
+ 128              	
+ 129:src/syscall_c.cpp ****   __asm__ volatile("ecall");
+ 530              		mv a1, a5
+ 531              	# 0 "" 2
+ 532              		.loc 1 129 3 is_stmt 1
+ 533              		.loc 1 129 28 is_stmt 0
+ 534              	# 129 "src/syscall_c.cpp" 1
+ 130              	
+ 131:src/syscall_c.cpp ****   int ret;
+ 535              		ecall
+ 536              	# 0 "" 2
+ 537              		.loc 1 131 3 is_stmt 1
+ 132:src/syscall_c.cpp ****   __asm__ volatile("mv %0, a0" : "=r" (ret));
+ 538              		.loc 1 132 3
+ 539              		.loc 1 132 45 is_stmt 0
+ 540              	# 132 "src/syscall_c.cpp" 1
+ 133              	  return ret;
+ 541              		mv a0, a0
+ 542              	# 0 "" 2
+ 543              	.LVL23:
+ 544              	#NO_APP
+ 545 0230 1B050500 		sext.w	a0,a0
+ 546              	.LVL24:
+ 547              		.loc 1 133 3 is_stmt 1
+ 134:src/syscall_c.cpp **** 
+ 135:src/syscall_c.cpp **** }
+ 548              		.loc 1 135 1 is_stmt 0
+ 549 0234 03348101 		ld	s0,24(sp)
+ 550              		.cfi_restore 8
+ 551              		.cfi_def_cfa 2, 32
+ 552 0238 13010102 		addi	sp,sp,32
+ 553              		.cfi_def_cfa_offset 0
+ 554              	.LVL25:
+ 555 023c 67800000 		jr	ra
+ 556              	.LVL26:
+ 557              	.L22:
+ 121:src/syscall_c.cpp **** 
+ 558              		.loc 1 121 19
+ 559 0240 1305F0FF 		li	a0,-1
+GAS LISTING /tmp/ccyeCDOs.s 			page 13
+
+
+ 560              	.LVL27:
+ 561              		.loc 1 135 1
+ 562 0244 67800000 		ret
+ 563              		.cfi_endproc
+ 564              	.LFE31:
+ 566              		.align	2
+ 567              		.globl	_Z10sem_signalP13SemaforKernel
+ 569              	_Z10sem_signalP13SemaforKernel:
+ 570              	.LFB32:
+ 136:src/syscall_c.cpp **** 
+ 137:src/syscall_c.cpp **** int sem_signal (sem_t id){
+ 571              		.loc 1 137 26 is_stmt 1
+ 572              		.cfi_startproc
+ 573              	.LVL28:
+ 138:src/syscall_c.cpp ****   if(!id) return -1;
+ 574              		.loc 1 138 3
+ 575 0248 63020504 		beqz	a0,.L29
+ 137:src/syscall_c.cpp ****   if(!id) return -1;
+ 576              		.loc 1 137 26 is_stmt 0
+ 577 024c 130101FE 		addi	sp,sp,-32
+ 578              		.cfi_def_cfa_offset 32
+ 579 0250 233C8100 		sd	s0,24(sp)
+ 580              		.cfi_offset 8, -8
+ 581 0254 13040102 		addi	s0,sp,32
+ 582              		.cfi_def_cfa 8, 0
+ 139:src/syscall_c.cpp ****   uint64 volatile code=0x24;
+ 583              		.loc 1 139 3 is_stmt 1
+ 584              		.loc 1 139 19 is_stmt 0
+ 585 0258 93074002 		li	a5,36
+ 586 025c 2334F4FE 		sd	a5,-24(s0)
+ 140:src/syscall_c.cpp ****   uint64 volatile handleC=(uint64)id;
+ 587              		.loc 1 140 3 is_stmt 1
+ 588              		.loc 1 140 19 is_stmt 0
+ 589 0260 2330A4FE 		sd	a0,-32(s0)
+ 141:src/syscall_c.cpp **** 
+ 142:src/syscall_c.cpp ****   __asm__ volatile("mv a0, %0" : : "r" (code));
+ 590              		.loc 1 142 3 is_stmt 1
+ 591              		.loc 1 142 41 is_stmt 0
+ 592 0264 833784FE 		ld	a5,-24(s0)
+ 593              		.loc 1 142 47
+ 594              	#APP
+ 595              	# 142 "src/syscall_c.cpp" 1
+ 143              	  __asm__ volatile("mv a1, %0" : : "r" (handleC));
+ 596              		mv a0, a5
+ 597              	# 0 "" 2
+ 598              		.loc 1 143 3 is_stmt 1
+ 599              		.loc 1 143 41 is_stmt 0
+ 600              	#NO_APP
+ 601 026c 833704FE 		ld	a5,-32(s0)
+ 602              		.loc 1 143 50
+ 603              	#APP
+ 604              	# 143 "src/syscall_c.cpp" 1
+ 144              	
+ 145:src/syscall_c.cpp ****   __asm__ volatile("ecall");
+ 605              		mv a1, a5
+ 606              	# 0 "" 2
+ 607              		.loc 1 145 3 is_stmt 1
+GAS LISTING /tmp/ccyeCDOs.s 			page 14
+
+
+ 608              		.loc 1 145 28 is_stmt 0
+ 609              	# 145 "src/syscall_c.cpp" 1
+ 146              	
+ 147:src/syscall_c.cpp ****   int ret;
+ 610              		ecall
+ 611              	# 0 "" 2
+ 612              		.loc 1 147 3 is_stmt 1
+ 148:src/syscall_c.cpp ****   __asm__ volatile("mv %0, a0" : "=r" (ret));
+ 613              		.loc 1 148 3
+ 614              		.loc 1 148 45 is_stmt 0
+ 615              	# 148 "src/syscall_c.cpp" 1
+ 149              	
+ 616              		mv a0, a0
+ 617              	# 0 "" 2
+ 618              	.LVL29:
+ 619              	#NO_APP
+ 620 027c 1B050500 		sext.w	a0,a0
+ 621              	.LVL30:
+ 150:src/syscall_c.cpp ****   return ret;
+ 622              		.loc 1 150 3 is_stmt 1
+ 151:src/syscall_c.cpp **** 
+ 152:src/syscall_c.cpp **** }
+ 623              		.loc 1 152 1 is_stmt 0
+ 624 0280 03348101 		ld	s0,24(sp)
+ 625              		.cfi_restore 8
+ 626              		.cfi_def_cfa 2, 32
+ 627 0284 13010102 		addi	sp,sp,32
+ 628              		.cfi_def_cfa_offset 0
+ 629              	.LVL31:
+ 630 0288 67800000 		jr	ra
+ 631              	.LVL32:
+ 632              	.L29:
+ 138:src/syscall_c.cpp ****   uint64 volatile code=0x24;
+ 633              		.loc 1 138 19
+ 634 028c 1305F0FF 		li	a0,-1
+ 635              	.LVL33:
+ 636              		.loc 1 152 1
+ 637 0290 67800000 		ret
+ 638              		.cfi_endproc
+ 639              	.LFE32:
+ 641              		.align	2
+ 642              		.globl	_Z4getcv
+ 644              	_Z4getcv:
+ 645              	.LFB33:
+ 153:src/syscall_c.cpp **** 
+ 154:src/syscall_c.cpp **** 
+ 155:src/syscall_c.cpp **** char getc(){
+ 646              		.loc 1 155 12 is_stmt 1
+ 647              		.cfi_startproc
+ 648 0294 130101FF 		addi	sp,sp,-16
+ 649              		.cfi_def_cfa_offset 16
+ 650 0298 23348100 		sd	s0,8(sp)
+ 651              		.cfi_offset 8, -8
+ 652 029c 13040101 		addi	s0,sp,16
+ 653              		.cfi_def_cfa 8, 0
+ 156:src/syscall_c.cpp **** 
+ 157:src/syscall_c.cpp ****     uint64   code=0x41;
+GAS LISTING /tmp/ccyeCDOs.s 			page 15
+
+
+ 654              		.loc 1 157 5
+ 655              	.LVL34:
+ 158:src/syscall_c.cpp ****     __asm__ volatile("mv a0, %[instrcode]" : : [instrcode] "r" (code));
+ 656              		.loc 1 158 5
+ 657              		.loc 1 158 71 is_stmt 0
+ 658 02a0 93071004 		li	a5,65
+ 659              	#APP
+ 660              	# 158 "src/syscall_c.cpp" 1
+ 159              	    char  ret;
+ 661              		mv a0, a5
+ 662              	# 0 "" 2
+ 663              		.loc 1 159 5 is_stmt 1
+ 160:src/syscall_c.cpp ****     __asm__ volatile("ecall");
+ 664              		.loc 1 160 5
+ 665              		.loc 1 160 30 is_stmt 0
+ 666              	# 160 "src/syscall_c.cpp" 1
+ 161              	    __asm__ volatile("mv %0, a0" : "=r" (ret));
+ 667              		ecall
+ 668              	# 0 "" 2
+ 669              		.loc 1 161 5 is_stmt 1
+ 670              		.loc 1 161 47 is_stmt 0
+ 671              	# 161 "src/syscall_c.cpp" 1
+ 162              	    return ret;
+ 672              		mv a0, a0
+ 673              	# 0 "" 2
+ 674              	.LVL35:
+ 675              		.loc 1 162 5 is_stmt 1
+ 163:src/syscall_c.cpp **** 
+ 164:src/syscall_c.cpp **** }
+ 676              		.loc 1 164 1 is_stmt 0
+ 677              	#NO_APP
+ 678 02b0 1375F50F 		andi	a0,a0,0xff
+ 679 02b4 03348100 		ld	s0,8(sp)
+ 680              		.cfi_restore 8
+ 681              		.cfi_def_cfa 2, 16
+ 682 02b8 13010101 		addi	sp,sp,16
+ 683              		.cfi_def_cfa_offset 0
+ 684 02bc 67800000 		jr	ra
+ 685              		.cfi_endproc
+ 686              	.LFE33:
+ 688              		.align	2
+ 689              		.globl	_Z4putcc
+ 691              	_Z4putcc:
+ 692              	.LFB34:
+ 165:src/syscall_c.cpp **** 
+ 166:src/syscall_c.cpp **** void putc(char c){
+ 693              		.loc 1 166 18 is_stmt 1
+ 694              		.cfi_startproc
+ 695              	.LVL36:
+ 696 02c0 130101FF 		addi	sp,sp,-16
+ 697              		.cfi_def_cfa_offset 16
+ 698 02c4 23348100 		sd	s0,8(sp)
+ 699              		.cfi_offset 8, -8
+ 700 02c8 13040101 		addi	s0,sp,16
+ 701              		.cfi_def_cfa 8, 0
+ 167:src/syscall_c.cpp ****     uint64  code=0x42;
+ 702              		.loc 1 167 5
+GAS LISTING /tmp/ccyeCDOs.s 			page 16
+
+
+ 703              	.LVL37:
+ 168:src/syscall_c.cpp ****     __asm__ volatile("mv a1, %[val]" : : [val] "r" ((uint64)c));
+ 704              		.loc 1 168 5
+ 705              		.loc 1 168 64 is_stmt 0
+ 706              	#APP
+ 707              	# 168 "src/syscall_c.cpp" 1
+ 169              	    __asm__ volatile("mv a0, %[instrcode]" : : [instrcode] "r" (code));
+ 708              		mv a1, a0
+ 709              	# 0 "" 2
+ 710              		.loc 1 169 5 is_stmt 1
+ 711              		.loc 1 169 71 is_stmt 0
+ 712              	#NO_APP
+ 713 02d0 93072004 		li	a5,66
+ 714              	#APP
+ 715              	# 169 "src/syscall_c.cpp" 1
+ 170              	    __asm__ volatile("ecall");
+ 716              		mv a0, a5
+ 717              	# 0 "" 2
+ 718              		.loc 1 170 5 is_stmt 1
+ 719              		.loc 1 170 30 is_stmt 0
+ 720              	# 170 "src/syscall_c.cpp" 1
+ 171              	}
+ 721              		ecall
+ 722              	# 0 "" 2
+ 723              		.loc 1 171 1
+ 724              	#NO_APP
+ 725 02dc 03348100 		ld	s0,8(sp)
+ 726              		.cfi_restore 8
+ 727              		.cfi_def_cfa 2, 16
+ 728 02e0 13010101 		addi	sp,sp,16
+ 729              		.cfi_def_cfa_offset 0
+ 730 02e4 67800000 		jr	ra
+ 731              		.cfi_endproc
+ 732              	.LFE34:
+ 734              	.Letext0:
+ 735              		.file 2 "src/../h/../lib/hw.h"
+ 736              		.file 3 "src/../h/tcb.hpp"
+ 737              		.file 4 "src/../h/syscall_c.hpp"
+GAS LISTING /tmp/ccyeCDOs.s 			page 17
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 syscall_c.cpp
+     /tmp/ccyeCDOs.s:9      .text:0000000000000000 _Z9mem_allocm
+     /tmp/ccyeCDOs.s:13     .text:0000000000000000 .L0 
+     /tmp/ccyeCDOs.s:15     .text:0000000000000000 .L0 
+     /tmp/ccyeCDOs.s:16     .text:0000000000000004 .L0 
+     /tmp/ccyeCDOs.s:18     .text:0000000000000008 .L0 
+     /tmp/ccyeCDOs.s:20     .text:000000000000000c .L0 
+     /tmp/ccyeCDOs.s:22     .text:000000000000000c .L0 
+     /tmp/ccyeCDOs.s:23     .text:000000000000000c .L0 
+     /tmp/ccyeCDOs.s:26     .text:0000000000000010 .L0 
+     /tmp/ccyeCDOs.s:29     .text:0000000000000014 .L0 
+     /tmp/ccyeCDOs.s:31     .text:0000000000000018 .L0 
+     /tmp/ccyeCDOs.s:32     .text:0000000000000018 .L0 
+     /tmp/ccyeCDOs.s:35     .text:0000000000000020 .L0 
+     /tmp/ccyeCDOs.s:36     .text:0000000000000020 .L0 
+   src/syscall_c.cpp:15     .text:0000000000000024 .L0 
+     /tmp/ccyeCDOs.s:43     .text:0000000000000028 .L0 
+     /tmp/ccyeCDOs.s:45     .text:0000000000000028 .L0 
+   src/syscall_c.cpp:16     .text:000000000000002c .L0 
+     /tmp/ccyeCDOs.s:52     .text:0000000000000030 .L0 
+   src/syscall_c.cpp:18     .text:0000000000000030 .L0 
+     /tmp/ccyeCDOs.s:57     .text:0000000000000034 .L0 
+     /tmp/ccyeCDOs.s:58     .text:0000000000000034 .L0 
+   src/syscall_c.cpp:21     .text:0000000000000034 .L0 
+     /tmp/ccyeCDOs.s:64     .text:0000000000000038 .L0 
+     /tmp/ccyeCDOs.s:66     .text:0000000000000038 .L0 
+     /tmp/ccyeCDOs.s:67     .text:000000000000003c .L0 
+     /tmp/ccyeCDOs.s:68     .text:000000000000003c .L0 
+     /tmp/ccyeCDOs.s:70     .text:0000000000000040 .L0 
+     /tmp/ccyeCDOs.s:72     .text:0000000000000044 .L0 
+     /tmp/ccyeCDOs.s:78     .text:0000000000000044 _Z8mem_freePv
+     /tmp/ccyeCDOs.s:81     .text:0000000000000044 .L0 
+     /tmp/ccyeCDOs.s:83     .text:0000000000000044 .L0 
+     /tmp/ccyeCDOs.s:84     .text:0000000000000048 .L0 
+     /tmp/ccyeCDOs.s:86     .text:000000000000004c .L0 
+     /tmp/ccyeCDOs.s:88     .text:0000000000000050 .L0 
+     /tmp/ccyeCDOs.s:90     .text:0000000000000050 .L0 
+     /tmp/ccyeCDOs.s:91     .text:0000000000000050 .L0 
+     /tmp/ccyeCDOs.s:94     .text:0000000000000058 .L0 
+     /tmp/ccyeCDOs.s:95     .text:0000000000000058 .L0 
+     /tmp/ccyeCDOs.s:97     .text:000000000000005c .L0 
+     /tmp/ccyeCDOs.s:98     .text:000000000000005c .L0 
+   src/syscall_c.cpp:30     .text:0000000000000060 .L0 
+     /tmp/ccyeCDOs.s:105    .text:0000000000000064 .L0 
+     /tmp/ccyeCDOs.s:107    .text:0000000000000064 .L0 
+   src/syscall_c.cpp:31     .text:0000000000000068 .L0 
+     /tmp/ccyeCDOs.s:114    .text:000000000000006c .L0 
+   src/syscall_c.cpp:33     .text:000000000000006c .L0 
+     /tmp/ccyeCDOs.s:119    .text:0000000000000070 .L0 
+     /tmp/ccyeCDOs.s:120    .text:0000000000000070 .L0 
+   src/syscall_c.cpp:36     .text:0000000000000070 .L0 
+     /tmp/ccyeCDOs.s:126    .text:0000000000000074 .L0 
+     /tmp/ccyeCDOs.s:128    .text:0000000000000074 .L0 
+     /tmp/ccyeCDOs.s:130    .text:000000000000007c .L0 
+     /tmp/ccyeCDOs.s:131    .text:000000000000007c .L0 
+     /tmp/ccyeCDOs.s:133    .text:0000000000000080 .L0 
+GAS LISTING /tmp/ccyeCDOs.s 			page 18
+
+
+     /tmp/ccyeCDOs.s:136    .text:0000000000000084 .L0 
+     /tmp/ccyeCDOs.s:142    .text:0000000000000084 _Z13thread_createPP3TCBPFvPvES2_
+     /tmp/ccyeCDOs.s:145    .text:0000000000000084 .L0 
+     /tmp/ccyeCDOs.s:147    .text:0000000000000084 .L0 
+     /tmp/ccyeCDOs.s:148    .text:0000000000000088 .L0 
+     /tmp/ccyeCDOs.s:151    .text:0000000000000090 .L0 
+     /tmp/ccyeCDOs.s:152    .text:0000000000000090 .L0 
+     /tmp/ccyeCDOs.s:154    .text:0000000000000094 .L0 
+     /tmp/ccyeCDOs.s:156    .text:0000000000000094 .L0 
+     /tmp/ccyeCDOs.s:157    .text:0000000000000094 .L0 
+     /tmp/ccyeCDOs.s:160    .text:000000000000009c .L0 
+     /tmp/ccyeCDOs.s:161    .text:000000000000009c .L0 
+     /tmp/ccyeCDOs.s:163    .text:00000000000000a0 .L0 
+     /tmp/ccyeCDOs.s:164    .text:00000000000000a0 .L0 
+     /tmp/ccyeCDOs.s:166    .text:00000000000000a4 .L0 
+     /tmp/ccyeCDOs.s:167    .text:00000000000000a4 .L0 
+     /tmp/ccyeCDOs.s:169    .text:00000000000000a8 .L0 
+     /tmp/ccyeCDOs.s:170    .text:00000000000000a8 .L0 
+     /tmp/ccyeCDOs.s:177    .text:00000000000000b8 .L0 
+     /tmp/ccyeCDOs.s:178    .text:00000000000000b8 .L0 
+   src/syscall_c.cpp:50     .text:00000000000000bc .L0 
+     /tmp/ccyeCDOs.s:185    .text:00000000000000c0 .L0 
+     /tmp/ccyeCDOs.s:187    .text:00000000000000c0 .L0 
+   src/syscall_c.cpp:51     .text:00000000000000c4 .L0 
+     /tmp/ccyeCDOs.s:194    .text:00000000000000c8 .L0 
+     /tmp/ccyeCDOs.s:196    .text:00000000000000c8 .L0 
+   src/syscall_c.cpp:52     .text:00000000000000cc .L0 
+     /tmp/ccyeCDOs.s:203    .text:00000000000000d0 .L0 
+     /tmp/ccyeCDOs.s:205    .text:00000000000000d0 .L0 
+   src/syscall_c.cpp:53     .text:00000000000000d4 .L0 
+     /tmp/ccyeCDOs.s:212    .text:00000000000000d8 .L0 
+     /tmp/ccyeCDOs.s:214    .text:00000000000000d8 .L0 
+     /tmp/ccyeCDOs.s:220    .text:00000000000000e0 .L0 
+   src/syscall_c.cpp:56     .text:00000000000000e0 .L0 
+     /tmp/ccyeCDOs.s:225    .text:00000000000000e4 .L0 
+     /tmp/ccyeCDOs.s:226    .text:00000000000000e4 .L0 
+   src/syscall_c.cpp:59     .text:00000000000000e4 .L0 
+     /tmp/ccyeCDOs.s:232    .text:00000000000000e8 .L0 
+     /tmp/ccyeCDOs.s:234    .text:00000000000000e8 .L0 
+     /tmp/ccyeCDOs.s:236    .text:00000000000000f0 .L0 
+     /tmp/ccyeCDOs.s:238    .text:00000000000000f4 .L0 
+     /tmp/ccyeCDOs.s:239    .text:00000000000000f4 .L0 
+     /tmp/ccyeCDOs.s:241    .text:00000000000000f8 .L0 
+     /tmp/ccyeCDOs.s:243    .text:00000000000000fc .L0 
+     /tmp/ccyeCDOs.s:249    .text:00000000000000fc _Z11thread_exitv
+     /tmp/ccyeCDOs.s:252    .text:00000000000000fc .L0 
+     /tmp/ccyeCDOs.s:253    .text:00000000000000fc .L0 
+     /tmp/ccyeCDOs.s:254    .text:0000000000000100 .L0 
+     /tmp/ccyeCDOs.s:256    .text:0000000000000104 .L0 
+     /tmp/ccyeCDOs.s:258    .text:0000000000000108 .L0 
+     /tmp/ccyeCDOs.s:260    .text:0000000000000108 .L0 
+     /tmp/ccyeCDOs.s:261    .text:0000000000000108 .L0 
+     /tmp/ccyeCDOs.s:264    .text:0000000000000110 .L0 
+     /tmp/ccyeCDOs.s:265    .text:0000000000000110 .L0 
+   src/syscall_c.cpp:67     .text:0000000000000114 .L0 
+     /tmp/ccyeCDOs.s:272    .text:0000000000000118 .L0 
+   src/syscall_c.cpp:69     .text:0000000000000118 .L0 
+GAS LISTING /tmp/ccyeCDOs.s 			page 19
+
+
+     /tmp/ccyeCDOs.s:277    .text:000000000000011c .L0 
+     /tmp/ccyeCDOs.s:278    .text:000000000000011c .L0 
+   src/syscall_c.cpp:72     .text:000000000000011c .L0 
+     /tmp/ccyeCDOs.s:284    .text:0000000000000120 .L0 
+     /tmp/ccyeCDOs.s:286    .text:0000000000000120 .L0 
+     /tmp/ccyeCDOs.s:288    .text:0000000000000128 .L0 
+     /tmp/ccyeCDOs.s:289    .text:0000000000000128 .L0 
+     /tmp/ccyeCDOs.s:291    .text:000000000000012c .L0 
+     /tmp/ccyeCDOs.s:293    .text:0000000000000130 .L0 
+     /tmp/ccyeCDOs.s:299    .text:0000000000000130 _Z15thread_dispatchv
+     /tmp/ccyeCDOs.s:302    .text:0000000000000130 .L0 
+     /tmp/ccyeCDOs.s:303    .text:0000000000000130 .L0 
+     /tmp/ccyeCDOs.s:304    .text:0000000000000134 .L0 
+     /tmp/ccyeCDOs.s:306    .text:0000000000000138 .L0 
+     /tmp/ccyeCDOs.s:308    .text:000000000000013c .L0 
+     /tmp/ccyeCDOs.s:310    .text:000000000000013c .L0 
+     /tmp/ccyeCDOs.s:311    .text:000000000000013c .L0 
+     /tmp/ccyeCDOs.s:314    .text:0000000000000144 .L0 
+     /tmp/ccyeCDOs.s:315    .text:0000000000000144 .L0 
+   src/syscall_c.cpp:80     .text:0000000000000148 .L0 
+     /tmp/ccyeCDOs.s:322    .text:000000000000014c .L0 
+   src/syscall_c.cpp:82     .text:000000000000014c .L0 
+     /tmp/ccyeCDOs.s:328    .text:0000000000000150 .L0 
+     /tmp/ccyeCDOs.s:329    .text:0000000000000154 .L0 
+     /tmp/ccyeCDOs.s:330    .text:0000000000000154 .L0 
+     /tmp/ccyeCDOs.s:332    .text:0000000000000158 .L0 
+     /tmp/ccyeCDOs.s:334    .text:000000000000015c .L0 
+     /tmp/ccyeCDOs.s:340    .text:000000000000015c _Z8sem_openPP13SemaforKernelj
+     /tmp/ccyeCDOs.s:343    .text:000000000000015c .L0 
+     /tmp/ccyeCDOs.s:345    .text:000000000000015c .L0 
+     /tmp/ccyeCDOs.s:346    .text:0000000000000160 .L0 
+     /tmp/ccyeCDOs.s:348    .text:0000000000000164 .L0 
+     /tmp/ccyeCDOs.s:350    .text:0000000000000168 .L0 
+     /tmp/ccyeCDOs.s:352    .text:0000000000000168 .L0 
+     /tmp/ccyeCDOs.s:353    .text:0000000000000168 .L0 
+     /tmp/ccyeCDOs.s:356    .text:0000000000000170 .L0 
+     /tmp/ccyeCDOs.s:357    .text:0000000000000170 .L0 
+     /tmp/ccyeCDOs.s:359    .text:0000000000000174 .L0 
+     /tmp/ccyeCDOs.s:360    .text:0000000000000174 .L0 
+     /tmp/ccyeCDOs.s:364    .text:000000000000017c .L0 
+     /tmp/ccyeCDOs.s:366    .text:0000000000000180 .L0 
+     /tmp/ccyeCDOs.s:367    .text:0000000000000180 .L0 
+   src/syscall_c.cpp:91     .text:0000000000000184 .L0 
+     /tmp/ccyeCDOs.s:374    .text:0000000000000188 .L0 
+     /tmp/ccyeCDOs.s:376    .text:0000000000000188 .L0 
+   src/syscall_c.cpp:92     .text:000000000000018c .L0 
+     /tmp/ccyeCDOs.s:383    .text:0000000000000190 .L0 
+     /tmp/ccyeCDOs.s:385    .text:0000000000000190 .L0 
+   src/syscall_c.cpp:93     .text:0000000000000194 .L0 
+     /tmp/ccyeCDOs.s:392    .text:0000000000000198 .L0 
+   src/syscall_c.cpp:95     .text:0000000000000198 .L0 
+     /tmp/ccyeCDOs.s:397    .text:000000000000019c .L0 
+     /tmp/ccyeCDOs.s:398    .text:000000000000019c .L0 
+   src/syscall_c.cpp:98     .text:000000000000019c .L0 
+     /tmp/ccyeCDOs.s:404    .text:00000000000001a0 .L0 
+     /tmp/ccyeCDOs.s:406    .text:00000000000001a0 .L0 
+     /tmp/ccyeCDOs.s:408    .text:00000000000001a8 .L0 
+GAS LISTING /tmp/ccyeCDOs.s 			page 20
+
+
+     /tmp/ccyeCDOs.s:409    .text:00000000000001a8 .L0 
+     /tmp/ccyeCDOs.s:411    .text:00000000000001ac .L0 
+     /tmp/ccyeCDOs.s:413    .text:00000000000001b0 .L0 
+     /tmp/ccyeCDOs.s:419    .text:00000000000001b0 _Z9sem_closeP13SemaforKernel
+     /tmp/ccyeCDOs.s:422    .text:00000000000001b0 .L0 
+     /tmp/ccyeCDOs.s:424    .text:00000000000001b0 .L0 
+     /tmp/ccyeCDOs.s:425    .text:00000000000001b0 .L0 
+     /tmp/ccyeCDOs.s:427    .text:00000000000001b4 .L0 
+     /tmp/ccyeCDOs.s:428    .text:00000000000001b8 .L0 
+     /tmp/ccyeCDOs.s:430    .text:00000000000001bc .L0 
+     /tmp/ccyeCDOs.s:432    .text:00000000000001c0 .L0 
+     /tmp/ccyeCDOs.s:434    .text:00000000000001c0 .L0 
+     /tmp/ccyeCDOs.s:435    .text:00000000000001c0 .L0 
+     /tmp/ccyeCDOs.s:438    .text:00000000000001c8 .L0 
+     /tmp/ccyeCDOs.s:439    .text:00000000000001c8 .L0 
+     /tmp/ccyeCDOs.s:441    .text:00000000000001cc .L0 
+     /tmp/ccyeCDOs.s:442    .text:00000000000001cc .L0 
+   src/syscall_c.cpp:109    .text:00000000000001d0 .L0 
+     /tmp/ccyeCDOs.s:449    .text:00000000000001d4 .L0 
+     /tmp/ccyeCDOs.s:451    .text:00000000000001d4 .L0 
+   src/syscall_c.cpp:110    .text:00000000000001d8 .L0 
+     /tmp/ccyeCDOs.s:458    .text:00000000000001dc .L0 
+   src/syscall_c.cpp:112    .text:00000000000001dc .L0 
+     /tmp/ccyeCDOs.s:463    .text:00000000000001e0 .L0 
+     /tmp/ccyeCDOs.s:464    .text:00000000000001e0 .L0 
+   src/syscall_c.cpp:115    .text:00000000000001e0 .L0 
+     /tmp/ccyeCDOs.s:473    .text:00000000000001e8 .L0 
+     /tmp/ccyeCDOs.s:474    .text:00000000000001e8 .L0 
+     /tmp/ccyeCDOs.s:475    .text:00000000000001ec .L0 
+     /tmp/ccyeCDOs.s:476    .text:00000000000001ec .L0 
+     /tmp/ccyeCDOs.s:478    .text:00000000000001f0 .L0 
+     /tmp/ccyeCDOs.s:484    .text:00000000000001f4 .L0 
+     /tmp/ccyeCDOs.s:487    .text:00000000000001f8 .L0 
+     /tmp/ccyeCDOs.s:488    .text:00000000000001fc .L0 
+     /tmp/ccyeCDOs.s:494    .text:00000000000001fc _Z8sem_waitP13SemaforKernel
+     /tmp/ccyeCDOs.s:497    .text:00000000000001fc .L0 
+     /tmp/ccyeCDOs.s:499    .text:00000000000001fc .L0 
+     /tmp/ccyeCDOs.s:500    .text:00000000000001fc .L0 
+     /tmp/ccyeCDOs.s:502    .text:0000000000000200 .L0 
+     /tmp/ccyeCDOs.s:503    .text:0000000000000204 .L0 
+     /tmp/ccyeCDOs.s:505    .text:0000000000000208 .L0 
+     /tmp/ccyeCDOs.s:507    .text:000000000000020c .L0 
+     /tmp/ccyeCDOs.s:509    .text:000000000000020c .L0 
+     /tmp/ccyeCDOs.s:510    .text:000000000000020c .L0 
+     /tmp/ccyeCDOs.s:513    .text:0000000000000214 .L0 
+     /tmp/ccyeCDOs.s:514    .text:0000000000000214 .L0 
+     /tmp/ccyeCDOs.s:516    .text:0000000000000218 .L0 
+     /tmp/ccyeCDOs.s:517    .text:0000000000000218 .L0 
+   src/syscall_c.cpp:126    .text:000000000000021c .L0 
+     /tmp/ccyeCDOs.s:524    .text:0000000000000220 .L0 
+     /tmp/ccyeCDOs.s:526    .text:0000000000000220 .L0 
+   src/syscall_c.cpp:127    .text:0000000000000224 .L0 
+     /tmp/ccyeCDOs.s:533    .text:0000000000000228 .L0 
+   src/syscall_c.cpp:129    .text:0000000000000228 .L0 
+     /tmp/ccyeCDOs.s:538    .text:000000000000022c .L0 
+     /tmp/ccyeCDOs.s:539    .text:000000000000022c .L0 
+   src/syscall_c.cpp:132    .text:000000000000022c .L0 
+GAS LISTING /tmp/ccyeCDOs.s 			page 21
+
+
+     /tmp/ccyeCDOs.s:548    .text:0000000000000234 .L0 
+     /tmp/ccyeCDOs.s:549    .text:0000000000000234 .L0 
+     /tmp/ccyeCDOs.s:550    .text:0000000000000238 .L0 
+     /tmp/ccyeCDOs.s:551    .text:0000000000000238 .L0 
+     /tmp/ccyeCDOs.s:553    .text:000000000000023c .L0 
+     /tmp/ccyeCDOs.s:559    .text:0000000000000240 .L0 
+     /tmp/ccyeCDOs.s:562    .text:0000000000000244 .L0 
+     /tmp/ccyeCDOs.s:563    .text:0000000000000248 .L0 
+     /tmp/ccyeCDOs.s:569    .text:0000000000000248 _Z10sem_signalP13SemaforKernel
+     /tmp/ccyeCDOs.s:572    .text:0000000000000248 .L0 
+     /tmp/ccyeCDOs.s:574    .text:0000000000000248 .L0 
+     /tmp/ccyeCDOs.s:575    .text:0000000000000248 .L0 
+     /tmp/ccyeCDOs.s:577    .text:000000000000024c .L0 
+     /tmp/ccyeCDOs.s:578    .text:0000000000000250 .L0 
+     /tmp/ccyeCDOs.s:580    .text:0000000000000254 .L0 
+     /tmp/ccyeCDOs.s:582    .text:0000000000000258 .L0 
+     /tmp/ccyeCDOs.s:584    .text:0000000000000258 .L0 
+     /tmp/ccyeCDOs.s:585    .text:0000000000000258 .L0 
+     /tmp/ccyeCDOs.s:588    .text:0000000000000260 .L0 
+     /tmp/ccyeCDOs.s:589    .text:0000000000000260 .L0 
+     /tmp/ccyeCDOs.s:591    .text:0000000000000264 .L0 
+     /tmp/ccyeCDOs.s:592    .text:0000000000000264 .L0 
+   src/syscall_c.cpp:142    .text:0000000000000268 .L0 
+     /tmp/ccyeCDOs.s:599    .text:000000000000026c .L0 
+     /tmp/ccyeCDOs.s:601    .text:000000000000026c .L0 
+   src/syscall_c.cpp:143    .text:0000000000000270 .L0 
+     /tmp/ccyeCDOs.s:608    .text:0000000000000274 .L0 
+   src/syscall_c.cpp:145    .text:0000000000000274 .L0 
+     /tmp/ccyeCDOs.s:613    .text:0000000000000278 .L0 
+     /tmp/ccyeCDOs.s:614    .text:0000000000000278 .L0 
+   src/syscall_c.cpp:148    .text:0000000000000278 .L0 
+     /tmp/ccyeCDOs.s:623    .text:0000000000000280 .L0 
+     /tmp/ccyeCDOs.s:624    .text:0000000000000280 .L0 
+     /tmp/ccyeCDOs.s:625    .text:0000000000000284 .L0 
+     /tmp/ccyeCDOs.s:626    .text:0000000000000284 .L0 
+     /tmp/ccyeCDOs.s:628    .text:0000000000000288 .L0 
+     /tmp/ccyeCDOs.s:634    .text:000000000000028c .L0 
+     /tmp/ccyeCDOs.s:637    .text:0000000000000290 .L0 
+     /tmp/ccyeCDOs.s:638    .text:0000000000000294 .L0 
+     /tmp/ccyeCDOs.s:644    .text:0000000000000294 _Z4getcv
+     /tmp/ccyeCDOs.s:647    .text:0000000000000294 .L0 
+     /tmp/ccyeCDOs.s:648    .text:0000000000000294 .L0 
+     /tmp/ccyeCDOs.s:649    .text:0000000000000298 .L0 
+     /tmp/ccyeCDOs.s:651    .text:000000000000029c .L0 
+     /tmp/ccyeCDOs.s:653    .text:00000000000002a0 .L0 
+     /tmp/ccyeCDOs.s:656    .text:00000000000002a0 .L0 
+     /tmp/ccyeCDOs.s:657    .text:00000000000002a0 .L0 
+     /tmp/ccyeCDOs.s:658    .text:00000000000002a0 .L0 
+     /tmp/ccyeCDOs.s:664    .text:00000000000002a8 .L0 
+     /tmp/ccyeCDOs.s:665    .text:00000000000002a8 .L0 
+   src/syscall_c.cpp:160    .text:00000000000002a8 .L0 
+     /tmp/ccyeCDOs.s:670    .text:00000000000002ac .L0 
+   src/syscall_c.cpp:161    .text:00000000000002ac .L0 
+     /tmp/ccyeCDOs.s:676    .text:00000000000002b0 .L0 
+     /tmp/ccyeCDOs.s:678    .text:00000000000002b0 .L0 
+     /tmp/ccyeCDOs.s:680    .text:00000000000002b8 .L0 
+     /tmp/ccyeCDOs.s:681    .text:00000000000002b8 .L0 
+GAS LISTING /tmp/ccyeCDOs.s 			page 22
+
+
+     /tmp/ccyeCDOs.s:683    .text:00000000000002bc .L0 
+     /tmp/ccyeCDOs.s:685    .text:00000000000002c0 .L0 
+     /tmp/ccyeCDOs.s:691    .text:00000000000002c0 _Z4putcc
+     /tmp/ccyeCDOs.s:694    .text:00000000000002c0 .L0 
+     /tmp/ccyeCDOs.s:696    .text:00000000000002c0 .L0 
+     /tmp/ccyeCDOs.s:697    .text:00000000000002c4 .L0 
+     /tmp/ccyeCDOs.s:699    .text:00000000000002c8 .L0 
+     /tmp/ccyeCDOs.s:701    .text:00000000000002cc .L0 
+     /tmp/ccyeCDOs.s:704    .text:00000000000002cc .L0 
+     /tmp/ccyeCDOs.s:705    .text:00000000000002cc .L0 
+   src/syscall_c.cpp:168    .text:00000000000002cc .L0 
+     /tmp/ccyeCDOs.s:711    .text:00000000000002d0 .L0 
+     /tmp/ccyeCDOs.s:713    .text:00000000000002d0 .L0 
+     /tmp/ccyeCDOs.s:719    .text:00000000000002d8 .L0 
+   src/syscall_c.cpp:170    .text:00000000000002d8 .L0 
+     /tmp/ccyeCDOs.s:725    .text:00000000000002dc .L0 
+     /tmp/ccyeCDOs.s:726    .text:00000000000002e0 .L0 
+     /tmp/ccyeCDOs.s:727    .text:00000000000002e0 .L0 
+     /tmp/ccyeCDOs.s:729    .text:00000000000002e4 .L0 
+     /tmp/ccyeCDOs.s:731    .text:00000000000002e8 .L0 
+     /tmp/ccyeCDOs.s:738    .text:00000000000002e8 .L0 
+     /tmp/ccyeCDOs.s:482    .text:00000000000001f4 .L15
+     /tmp/ccyeCDOs.s:557    .text:0000000000000240 .L22
+     /tmp/ccyeCDOs.s:632    .text:000000000000028c .L29
+     /tmp/ccyeCDOs.s:1671   .debug_abbrev:0000000000000000 .Ldebug_abbrev0
+     /tmp/ccyeCDOs.s:2726   .debug_str:000000000000047f .LASF79
+     /tmp/ccyeCDOs.s:2644   .debug_str:0000000000000251 .LASF80
+     /tmp/ccyeCDOs.s:2596   .debug_str:00000000000000d3 .LASF81
+     /tmp/ccyeCDOs.s:5      .text:0000000000000000 .Ltext0
+     /tmp/ccyeCDOs.s:734    .text:00000000000002e8 .Letext0
+     /tmp/ccyeCDOs.s:2562   .debug_line:0000000000000000 .Ldebug_line0
+     /tmp/ccyeCDOs.s:2670   .debug_str:00000000000002f7 .LASF0
+     /tmp/ccyeCDOs.s:2682   .debug_str:0000000000000351 .LASF1
+     /tmp/ccyeCDOs.s:2656   .debug_str:0000000000000292 .LASF2
+     /tmp/ccyeCDOs.s:2640   .debug_str:000000000000022b .LASF4
+     /tmp/ccyeCDOs.s:2712   .debug_str:0000000000000424 .LASF3
+     /tmp/ccyeCDOs.s:2578   .debug_str:0000000000000049 .LASF5
+     /tmp/ccyeCDOs.s:2686   .debug_str:0000000000000375 .LASF6
+     /tmp/ccyeCDOs.s:2668   .debug_str:00000000000002e4 .LASF7
+     /tmp/ccyeCDOs.s:2734   .debug_str:000000000000056a .LASF8
+     /tmp/ccyeCDOs.s:2630   .debug_str:00000000000001cd .LASF9
+     /tmp/ccyeCDOs.s:2698   .debug_str:00000000000003c7 .LASF10
+     /tmp/ccyeCDOs.s:2728   .debug_str:0000000000000543 .LASF11
+     /tmp/ccyeCDOs.s:2580   .debug_str:0000000000000050 .LASF12
+     /tmp/ccyeCDOs.s:2566   .debug_str:0000000000000009 .LASF13
+     /tmp/ccyeCDOs.s:2588   .debug_str:00000000000000a7 .LASF14
+     /tmp/ccyeCDOs.s:2710   .debug_str:000000000000040e .LASF15
+     /tmp/ccyeCDOs.s:2598   .debug_str:00000000000000f6 .LASF16
+     /tmp/ccyeCDOs.s:2620   .debug_str:0000000000000188 .LASF17
+     /tmp/ccyeCDOs.s:2570   .debug_str:000000000000001e .LASF82
+     /tmp/ccyeCDOs.s:2606   .debug_str:000000000000013c .LASF18
+     /tmp/ccyeCDOs.s:2704   .debug_str:00000000000003f0 .LASF20
+     /tmp/ccyeCDOs.s:2688   .debug_str:0000000000000388 .LASF44
+     /tmp/ccyeCDOs.s:2628   .debug_str:00000000000001b6 .LASF46
+     /tmp/ccyeCDOs.s:2658   .debug_str:00000000000002a0 .LASF19
+     /tmp/ccyeCDOs.s:2634   .debug_str:00000000000001e7 .LASF21
+     /tmp/ccyeCDOs.s:2648   .debug_str:000000000000026b .LASF22
+GAS LISTING /tmp/ccyeCDOs.s 			page 23
+
+
+     /tmp/ccyeCDOs.s:2664   .debug_str:00000000000002b8 .LASF23
+     /tmp/ccyeCDOs.s:2614   .debug_str:000000000000015d .LASF83
+     /tmp/ccyeCDOs.s:2612   .debug_str:0000000000000155 .LASF84
+     /tmp/ccyeCDOs.s:2650   .debug_str:0000000000000278 .LASF85
+     /tmp/ccyeCDOs.s:2738   .debug_str:0000000000000588 .LASF24
+     /tmp/ccyeCDOs.s:2724   .debug_str:0000000000000473 .LASF25
+     /tmp/ccyeCDOs.s:2716   .debug_str:0000000000000440 .LASF28
+     /tmp/ccyeCDOs.s:2708   .debug_str:0000000000000401 .LASF30
+     /tmp/ccyeCDOs.s:2626   .debug_str:00000000000001a6 .LASF26
+     /tmp/ccyeCDOs.s:2632   .debug_str:00000000000001db .LASF27
+     /tmp/ccyeCDOs.s:2720   .debug_str:0000000000000456 .LASF29
+     /tmp/ccyeCDOs.s:2586   .debug_str:000000000000009a .LASF31
+     /tmp/ccyeCDOs.s:2680   .debug_str:000000000000033a .LASF86
+     /tmp/ccyeCDOs.s:2672   .debug_str:0000000000000304 .LASF32
+     /tmp/ccyeCDOs.s:2618   .debug_str:0000000000000175 .LASF34
+     /tmp/ccyeCDOs.s:2736   .debug_str:000000000000057a .LASF87
+     /tmp/ccyeCDOs.s:2636   .debug_str:00000000000001fe .LASF88
+     /tmp/ccyeCDOs.s:2608   .debug_str:0000000000000141 .LASF33
+     /tmp/ccyeCDOs.s:2676   .debug_str:0000000000000313 .LASF35
+     /tmp/ccyeCDOs.s:2694   .debug_str:000000000000039d .LASF36
+     /tmp/ccyeCDOs.s:2674   .debug_str:000000000000030d .LASF37
+     /tmp/ccyeCDOs.s:2646   .debug_str:0000000000000263 .LASF38
+     /tmp/ccyeCDOs.s:2654   .debug_str:0000000000000289 .LASF39
+     /tmp/ccyeCDOs.s:2592   .debug_str:00000000000000bd .LASF40
+     /tmp/ccyeCDOs.s:2730   .debug_str:0000000000000552 .LASF41
+     /tmp/ccyeCDOs.s:2564   .debug_str:0000000000000000 .LASF42
+     /tmp/ccyeCDOs.s:2610   .debug_str:000000000000014f .LASF43
+     /tmp/ccyeCDOs.s:2740   .debug_str:0000000000000595 .LASF89
+     /tmp/ccyeCDOs.s:2662   .debug_str:00000000000002b3 .LASF45
+     /tmp/ccyeCDOs.s:2622   .debug_str:000000000000018d .LASF47
+     /tmp/ccyeCDOs.s:692    .text:00000000000002c0 .LFB34
+     /tmp/ccyeCDOs.s:732    .text:00000000000002e8 .LFE34
+     /tmp/ccyeCDOs.s:2604   .debug_str:0000000000000137 .LASF48
+     /tmp/ccyeCDOs.s:2690   .debug_str:0000000000000393 .LASF49
+     /tmp/ccyeCDOs.s:2568   .debug_str:0000000000000019 .LASF50
+     /tmp/ccyeCDOs.s:2574   .debug_str:0000000000000032 .LASF52
+     /tmp/ccyeCDOs.s:645    .text:0000000000000294 .LFB33
+     /tmp/ccyeCDOs.s:686    .text:00000000000002c0 .LFE33
+     /tmp/ccyeCDOs.s:2732   .debug_str:000000000000055f .LASF51
+     /tmp/ccyeCDOs.s:2642   .debug_str:0000000000000232 .LASF53
+     /tmp/ccyeCDOs.s:570    .text:0000000000000248 .LFB32
+     /tmp/ccyeCDOs.s:639    .text:0000000000000294 .LFE32
+     /tmp/ccyeCDOs.s:2332   .debug_loc:0000000000000000 .LLST11
+     /tmp/ccyeCDOs.s:2744   .debug_str:00000000000005ac .LASF54
+     /tmp/ccyeCDOs.s:2360   .debug_loc:0000000000000074 .LLST12
+     /tmp/ccyeCDOs.s:2666   .debug_str:00000000000002db .LASF55
+     /tmp/ccyeCDOs.s:2584   .debug_str:000000000000007e .LASF56
+     /tmp/ccyeCDOs.s:495    .text:00000000000001fc .LFB31
+     /tmp/ccyeCDOs.s:564    .text:0000000000000248 .LFE31
+     /tmp/ccyeCDOs.s:2367   .debug_loc:0000000000000097 .LLST9
+     /tmp/ccyeCDOs.s:2395   .debug_loc:000000000000010b .LLST10
+     /tmp/ccyeCDOs.s:2722   .debug_str:0000000000000469 .LASF57
+     /tmp/ccyeCDOs.s:2602   .debug_str:000000000000011a .LASF58
+     /tmp/ccyeCDOs.s:420    .text:00000000000001b0 .LFB30
+     /tmp/ccyeCDOs.s:489    .text:00000000000001fc .LFE30
+     /tmp/ccyeCDOs.s:2660   .debug_str:00000000000002ac .LASF59
+     /tmp/ccyeCDOs.s:2402   .debug_loc:000000000000012e .LLST7
+GAS LISTING /tmp/ccyeCDOs.s 			page 24
+
+
+     /tmp/ccyeCDOs.s:2430   .debug_loc:00000000000001a2 .LLST8
+     /tmp/ccyeCDOs.s:2616   .debug_str:000000000000016c .LASF60
+     /tmp/ccyeCDOs.s:2582   .debug_str:0000000000000060 .LASF61
+     /tmp/ccyeCDOs.s:341    .text:000000000000015c .LFB29
+     /tmp/ccyeCDOs.s:414    .text:00000000000001b0 .LFE29
+     /tmp/ccyeCDOs.s:2437   .debug_loc:00000000000001c5 .LLST5
+     /tmp/ccyeCDOs.s:2692   .debug_str:0000000000000398 .LASF62
+     /tmp/ccyeCDOs.s:2451   .debug_loc:00000000000001fe .LLST6
+     /tmp/ccyeCDOs.s:2652   .debug_str:0000000000000283 .LASF63
+     /tmp/ccyeCDOs.s:2624   .debug_str:0000000000000196 .LASF64
+     /tmp/ccyeCDOs.s:2702   .debug_str:00000000000003db .LASF65
+     /tmp/ccyeCDOs.s:300    .text:0000000000000130 .LFB28
+     /tmp/ccyeCDOs.s:335    .text:000000000000015c .LFE28
+     /tmp/ccyeCDOs.s:2572   .debug_str:0000000000000026 .LASF66
+     /tmp/ccyeCDOs.s:2684   .debug_str:0000000000000364 .LASF67
+     /tmp/ccyeCDOs.s:250    .text:00000000000000fc .LFB27
+     /tmp/ccyeCDOs.s:294    .text:0000000000000130 .LFE27
+     /tmp/ccyeCDOs.s:2600   .debug_str:000000000000010c .LASF68
+     /tmp/ccyeCDOs.s:2696   .debug_str:00000000000003a6 .LASF69
+     /tmp/ccyeCDOs.s:143    .text:0000000000000084 .LFB26
+     /tmp/ccyeCDOs.s:244    .text:00000000000000fc .LFE26
+     /tmp/ccyeCDOs.s:2465   .debug_loc:0000000000000237 .LLST2
+     /tmp/ccyeCDOs.s:2576   .debug_str:000000000000003b .LASF70
+     /tmp/ccyeCDOs.s:2479   .debug_loc:0000000000000270 .LLST3
+     /tmp/ccyeCDOs.s:2493   .debug_loc:00000000000002a9 .LLST4
+     /tmp/ccyeCDOs.s:2590   .debug_str:00000000000000b3 .LASF71
+     /tmp/ccyeCDOs.s:2638   .debug_str:0000000000000226 .LASF72
+     /tmp/ccyeCDOs.s:173    .text:00000000000000b4 .LVL9
+     /tmp/ccyeCDOs.s:2742   .debug_str:00000000000005a3 .LASF73
+     /tmp/ccyeCDOs.s:2678   .debug_str:000000000000032c .LASF74
+     /tmp/ccyeCDOs.s:79     .text:0000000000000044 .LFB25
+     /tmp/ccyeCDOs.s:137    .text:0000000000000084 .LFE25
+     /tmp/ccyeCDOs.s:2700   .debug_str:00000000000003d6 .LASF75
+     /tmp/ccyeCDOs.s:2512   .debug_loc:00000000000002f6 .LLST1
+     /tmp/ccyeCDOs.s:2714   .debug_str:0000000000000436 .LASF76
+     /tmp/ccyeCDOs.s:2594   .debug_str:00000000000000c5 .LASF77
+     /tmp/ccyeCDOs.s:10     .text:0000000000000000 .LFB24
+     /tmp/ccyeCDOs.s:73     .text:0000000000000044 .LFE24
+     /tmp/ccyeCDOs.s:2706   .debug_str:00000000000003fc .LASF78
+     /tmp/ccyeCDOs.s:2529   .debug_loc:0000000000000341 .LLST0
+     /tmp/ccyeCDOs.s:2718   .debug_str:0000000000000450 .LASF90
+     /tmp/ccyeCDOs.s:573    .text:0000000000000248 .LVL28
+     /tmp/ccyeCDOs.s:618    .text:000000000000027c .LVL29
+     /tmp/ccyeCDOs.s:629    .text:0000000000000288 .LVL31
+     /tmp/ccyeCDOs.s:631    .text:000000000000028c .LVL32
+     /tmp/ccyeCDOs.s:635    .text:0000000000000290 .LVL33
+     /tmp/ccyeCDOs.s:621    .text:0000000000000280 .LVL30
+     /tmp/ccyeCDOs.s:498    .text:00000000000001fc .LVL22
+     /tmp/ccyeCDOs.s:543    .text:0000000000000230 .LVL23
+     /tmp/ccyeCDOs.s:554    .text:000000000000023c .LVL25
+     /tmp/ccyeCDOs.s:556    .text:0000000000000240 .LVL26
+     /tmp/ccyeCDOs.s:560    .text:0000000000000244 .LVL27
+     /tmp/ccyeCDOs.s:546    .text:0000000000000234 .LVL24
+     /tmp/ccyeCDOs.s:423    .text:00000000000001b0 .LVL16
+     /tmp/ccyeCDOs.s:468    .text:00000000000001e4 .LVL17
+     /tmp/ccyeCDOs.s:479    .text:00000000000001f0 .LVL19
+     /tmp/ccyeCDOs.s:481    .text:00000000000001f4 .LVL20
+GAS LISTING /tmp/ccyeCDOs.s 			page 25
+
+
+     /tmp/ccyeCDOs.s:485    .text:00000000000001f8 .LVL21
+     /tmp/ccyeCDOs.s:471    .text:00000000000001e8 .LVL18
+     /tmp/ccyeCDOs.s:344    .text:000000000000015c .LVL13
+     /tmp/ccyeCDOs.s:402    .text:00000000000001a0 .LVL15
+     /tmp/ccyeCDOs.s:361    .text:0000000000000178 .LVL14
+     /tmp/ccyeCDOs.s:146    .text:0000000000000084 .LVL7
+     /tmp/ccyeCDOs.s:171    .text:00000000000000ac .LVL8
+     /tmp/ccyeCDOs.s:175    .text:00000000000000b8 .LVL10
+     /tmp/ccyeCDOs.s:82     .text:0000000000000044 .LVL4
+     /tmp/ccyeCDOs.s:124    .text:0000000000000074 .LVL5
+     /tmp/ccyeCDOs.s:134    .text:0000000000000080 .LVL6
+     /tmp/ccyeCDOs.s:14     .text:0000000000000000 .LVL0
+     /tmp/ccyeCDOs.s:24     .text:0000000000000010 .LVL1
+     /tmp/ccyeCDOs.s:27     .text:0000000000000014 .LVL2
+     /tmp/ccyeCDOs.s:739    .debug_info:0000000000000000 .Ldebug_info0
+
+UNDEFINED SYMBOLS
+_Znam

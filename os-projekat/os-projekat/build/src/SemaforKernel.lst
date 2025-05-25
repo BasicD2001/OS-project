@@ -1,0 +1,1570 @@
+GAS LISTING /tmp/ccKBUPHF.s 			page 1
+
+
+   1              		.file	"SemaforKernel.cpp"
+   2              		.option pic
+   3              		.option norelax
+   4              		.text
+   5              	.Ltext0:
+   6              		.align	2
+   7              		.globl	_ZN13SemaforKernelD2Ev
+   9              	_ZN13SemaforKernelD2Ev:
+  10              	.LFB29:
+  11              		.file 1 "src/SemaforKernel.cpp"
+   1:src/SemaforKernel.cpp **** //
+   2:src/SemaforKernel.cpp **** // Created by os on 3/12/25.
+   3:src/SemaforKernel.cpp **** //
+   4:src/SemaforKernel.cpp **** 
+   5:src/SemaforKernel.cpp **** #include "../h/SemaforKernel.hpp"
+   6:src/SemaforKernel.cpp **** 
+   7:src/SemaforKernel.cpp **** SemaforKernel::SemaforKernel(int value){
+   8:src/SemaforKernel.cpp ****   val=value;
+   9:src/SemaforKernel.cpp **** 
+  10:src/SemaforKernel.cpp **** }
+  11:src/SemaforKernel.cpp **** 
+  12:src/SemaforKernel.cpp **** SemaforKernel* SemaforKernel::open(int value){
+  13:src/SemaforKernel.cpp ****   return new SemaforKernel(value);
+  14:src/SemaforKernel.cpp **** }
+  15:src/SemaforKernel.cpp **** 
+  16:src/SemaforKernel.cpp **** SemaforKernel::~SemaforKernel(){
+  12              		.loc 1 16 1
+  13              		.cfi_startproc
+  14              		.cfi_personality 0x9b,DW.ref.__gxx_personality_v0
+  15              		.cfi_lsda 0x1b,.LLSDA29
+  16              	.LVL0:
+  17 0000 130101FD 		addi	sp,sp,-48
+  18              		.cfi_def_cfa_offset 48
+  19 0004 23341102 		sd	ra,40(sp)
+  20 0008 23308102 		sd	s0,32(sp)
+  21 000c 233C9100 		sd	s1,24(sp)
+  22 0010 23382101 		sd	s2,16(sp)
+  23 0014 23343101 		sd	s3,8(sp)
+  24              		.cfi_offset 1, -8
+  25              		.cfi_offset 8, -16
+  26              		.cfi_offset 9, -24
+  27              		.cfi_offset 18, -32
+  28              		.cfi_offset 19, -40
+  29 0018 13040103 		addi	s0,sp,48
+  30              		.cfi_def_cfa 8, 0
+  31 001c 13090500 		mv	s2,a0
+  32              	.LBB37:
+  33              		.loc 1 16 31 is_stmt 0
+  34 0020 97070000 		lla	a5,_ZTV13SemaforKernel+16
+  34      93870700 
+  35 0028 2330F500 		sd	a5,0(a0)
+  36 002c 6F008002 		j	.L5
+  37              	.LVL1:
+  38              	.L8:
+  39              	.LBB38:
+  40              	.LBB39:
+  41              	.LBB40:
+GAS LISTING /tmp/ccKBUPHF.s 			page 2
+
+
+  42              	.LBB41:
+  43              		.file 2 "src/../h/../h/list.hpp"
+   1:src/../h/../h/list.hpp **** //
+   2:src/../h/../h/list.hpp **** // Created by os on 3/3/25.
+   3:src/../h/../h/list.hpp **** //
+   4:src/../h/../h/list.hpp **** 
+   5:src/../h/../h/list.hpp **** #ifndef LIST_H
+   6:src/../h/../h/list.hpp **** #define LIST_H
+   7:src/../h/../h/list.hpp **** 
+   8:src/../h/../h/list.hpp **** #include "../h/memallocator.hpp"
+   9:src/../h/../h/list.hpp **** #include "../lib/mem.h"
+  10:src/../h/../h/list.hpp **** 
+  11:src/../h/../h/list.hpp **** 
+  12:src/../h/../h/list.hpp **** 
+  13:src/../h/../h/list.hpp **** template<typename T>
+  14:src/../h/../h/list.hpp **** class List
+  15:src/../h/../h/list.hpp **** {
+  16:src/../h/../h/list.hpp **** private:
+  17:src/../h/../h/list.hpp ****     struct Elem
+  18:src/../h/../h/list.hpp ****     {
+  19:src/../h/../h/list.hpp ****         T *data;
+  20:src/../h/../h/list.hpp ****         Elem *next;
+  21:src/../h/../h/list.hpp **** 
+  22:src/../h/../h/list.hpp ****         Elem(T *data, Elem *next) : data(data), next(next) {}
+  23:src/../h/../h/list.hpp **** 
+  24:src/../h/../h/list.hpp ****          void *operator new(size_t size) { return MemoryAllocator::createAllocator()->alloc(size); 
+  25:src/../h/../h/list.hpp ****          void operator delete(void *p) { MemoryAllocator::createAllocator()->dealloc(p); }
+  26:src/../h/../h/list.hpp ****     };
+  27:src/../h/../h/list.hpp **** 
+  28:src/../h/../h/list.hpp ****     Elem *head, *tail;
+  29:src/../h/../h/list.hpp **** 
+  30:src/../h/../h/list.hpp **** public:
+  31:src/../h/../h/list.hpp ****     List() : head(0), tail(0) {}
+  32:src/../h/../h/list.hpp **** 
+  33:src/../h/../h/list.hpp ****     List(const List<T> &) = delete;
+  34:src/../h/../h/list.hpp **** 
+  35:src/../h/../h/list.hpp ****     List<T> &operator=(const List<T> &) = delete;
+  36:src/../h/../h/list.hpp **** 
+  37:src/../h/../h/list.hpp ****     void addFirst(T *data)
+  38:src/../h/../h/list.hpp ****     {
+  39:src/../h/../h/list.hpp ****         Elem *elem = new Elem(data, head);
+  40:src/../h/../h/list.hpp ****         head = elem;
+  41:src/../h/../h/list.hpp ****         if (!tail) { tail = head; }
+  42:src/../h/../h/list.hpp ****     }
+  43:src/../h/../h/list.hpp **** 
+  44:src/../h/../h/list.hpp ****     void addLast(T *data)
+  45:src/../h/../h/list.hpp ****     {
+  46:src/../h/../h/list.hpp ****         Elem *elem = new Elem(data, 0);
+  47:src/../h/../h/list.hpp ****         if (tail)
+  48:src/../h/../h/list.hpp ****         {
+  49:src/../h/../h/list.hpp ****             tail->next = elem;
+  50:src/../h/../h/list.hpp ****             tail = elem;
+  51:src/../h/../h/list.hpp ****         } else
+  52:src/../h/../h/list.hpp ****         {
+  53:src/../h/../h/list.hpp ****             head = tail = elem;
+  54:src/../h/../h/list.hpp ****         }
+  55:src/../h/../h/list.hpp ****     }
+GAS LISTING /tmp/ccKBUPHF.s 			page 3
+
+
+  56:src/../h/../h/list.hpp **** 
+  57:src/../h/../h/list.hpp ****     T *removeFirst()
+  58:src/../h/../h/list.hpp ****     {
+  59:src/../h/../h/list.hpp ****         if (!head) { return 0; }
+  60:src/../h/../h/list.hpp **** 
+  61:src/../h/../h/list.hpp ****         Elem *elem = head;
+  62:src/../h/../h/list.hpp ****         head = head->next;
+  63:src/../h/../h/list.hpp ****         if (!head) { tail = 0; }
+  44              		.loc 2 63 22
+  45 0030 23380900 		sd	zero,16(s2)
+  46              	.L4:
+  64:src/../h/../h/list.hpp **** 
+  65:src/../h/../h/list.hpp ****         T *ret = elem->data;
+  47              		.loc 2 65 12
+  48 0034 83B90400 		ld	s3,0(s1)
+  49              	.LVL2:
+  50              	.LBB42:
+  51              	.LBB43:
+  25:src/../h/../h/list.hpp ****     };
+  52              		.loc 2 25 85
+  53 0038 97000000 		call	_ZN15MemoryAllocator15createAllocatorEv@plt
+  53      E7800000 
+  54              	.LVL3:
+  55 0040 93850400 		mv	a1,s1
+  56 0044 97000000 		call	_ZN15MemoryAllocator7deallocEPv@plt
+  56      E7800000 
+  57              	.LVL4:
+  58              	.L3:
+  59              	.LBE43:
+  60              	.LBE42:
+  61              	.LBE41:
+  62              	.LBE40:
+  17:src/SemaforKernel.cpp **** 
+  18:src/SemaforKernel.cpp ****   while(waitingThreads.peekLast()){
+  19:src/SemaforKernel.cpp ****     TCB* go=waitingThreads.removeFirst();
+  20:src/SemaforKernel.cpp **** 
+  21:src/SemaforKernel.cpp ****   go->semDead=true;
+  63              		.loc 1 21 3 is_stmt 1
+  64              		.loc 1 21 14 is_stmt 0
+  65 004c 93071000 		li	a5,1
+  66 0050 A384F902 		sb	a5,41(s3)
+  67              	.LVL5:
+  68              	.L5:
+  69              	.LBE39:
+  18:src/SemaforKernel.cpp ****     TCB* go=waitingThreads.removeFirst();
+  70              		.loc 1 18 3 is_stmt 1
+  18:src/SemaforKernel.cpp ****     TCB* go=waitingThreads.removeFirst();
+  71              		.loc 1 18 33
+  72              	.LBB46:
+  73              	.LBB47:
+  66:src/../h/../h/list.hpp ****         delete elem;
+  67:src/../h/../h/list.hpp ****         return ret;
+  68:src/../h/../h/list.hpp ****     }
+  69:src/../h/../h/list.hpp **** 
+  70:src/../h/../h/list.hpp ****     T *peekFirst()
+  71:src/../h/../h/list.hpp ****     {
+  72:src/../h/../h/list.hpp ****         if (!head) { return 0; }
+GAS LISTING /tmp/ccKBUPHF.s 			page 4
+
+
+  73:src/../h/../h/list.hpp ****         return head->data;
+  74:src/../h/../h/list.hpp ****     }
+  75:src/../h/../h/list.hpp **** 
+  76:src/../h/../h/list.hpp **** 
+  77:src/../h/../h/list.hpp **** 
+  78:src/../h/../h/list.hpp ****     T *removeLast()
+  79:src/../h/../h/list.hpp ****     {
+  80:src/../h/../h/list.hpp ****         if (!head) { return 0; }
+  81:src/../h/../h/list.hpp **** 
+  82:src/../h/../h/list.hpp ****         Elem *prev = 0;
+  83:src/../h/../h/list.hpp ****         for (Elem *curr = head; curr && curr != tail; curr = curr->next)
+  84:src/../h/../h/list.hpp ****         {
+  85:src/../h/../h/list.hpp ****             prev = curr;
+  86:src/../h/../h/list.hpp ****         }
+  87:src/../h/../h/list.hpp **** 
+  88:src/../h/../h/list.hpp ****         Elem *elem = tail;
+  89:src/../h/../h/list.hpp ****         if (prev) { prev->next = 0; }
+  90:src/../h/../h/list.hpp ****         else { head = 0; }
+  91:src/../h/../h/list.hpp ****         tail = prev;
+  92:src/../h/../h/list.hpp **** 
+  93:src/../h/../h/list.hpp ****         T *ret = elem->data;
+  94:src/../h/../h/list.hpp ****         delete elem;
+  95:src/../h/../h/list.hpp ****         return ret;
+  96:src/../h/../h/list.hpp ****     }
+  97:src/../h/../h/list.hpp **** 
+  98:src/../h/../h/list.hpp ****     T *peekLast()
+  99:src/../h/../h/list.hpp ****     {
+ 100:src/../h/../h/list.hpp ****         if (!tail) { return 0; }
+  74              		.loc 2 100 14 is_stmt 0
+  75 0054 83370901 		ld	a5,16(s2)
+  76              		.loc 2 100 9
+  77 0058 63860702 		beqz	a5,.L1
+ 101:src/../h/../h/list.hpp ****         return tail->data;
+  78              		.loc 2 101 22
+  79 005c 83B70700 		ld	a5,0(a5)
+  80              	.LVL6:
+  81              	.LBE47:
+  82              	.LBE46:
+  18:src/SemaforKernel.cpp ****     TCB* go=waitingThreads.removeFirst();
+  83              		.loc 1 18 33
+  84 0060 63820702 		beqz	a5,.L1
+  85              	.LBB48:
+  19:src/SemaforKernel.cpp **** 
+  86              		.loc 1 19 5 is_stmt 1
+  87              	.LBB45:
+  88              	.LBB44:
+  59:src/../h/../h/list.hpp **** 
+  89              		.loc 2 59 14 is_stmt 0
+  90 0064 83348900 		ld	s1,8(s2)
+  59:src/../h/../h/list.hpp **** 
+  91              		.loc 2 59 9
+  92 0068 638A0400 		beqz	s1,.L6
+  93              	.LVL7:
+  62:src/../h/../h/list.hpp ****         if (!head) { tail = 0; }
+  94              		.loc 2 62 22
+  95 006c 83B78400 		ld	a5,8(s1)
+  62:src/../h/../h/list.hpp ****         if (!head) { tail = 0; }
+GAS LISTING /tmp/ccKBUPHF.s 			page 5
+
+
+  96              		.loc 2 62 9
+  97 0070 2334F900 		sd	a5,8(s2)
+  63:src/../h/../h/list.hpp **** 
+  98              		.loc 2 63 9
+  99 0074 E39007FC 		bnez	a5,.L4
+ 100 0078 6FF09FFB 		j	.L8
+ 101              	.LVL8:
+ 102              	.L6:
+  59:src/../h/../h/list.hpp **** 
+ 103              		.loc 2 59 29
+ 104 007c 93890400 		mv	s3,s1
+ 105 0080 6FF0DFFC 		j	.L3
+ 106              	.L1:
+ 107              	.LBE44:
+ 108              	.LBE45:
+ 109              	.LBE48:
+ 110              	.LBE38:
+ 111              	.LBE37:
+  22:src/SemaforKernel.cpp ****   }
+  23:src/SemaforKernel.cpp **** }
+ 112              		.loc 1 23 1
+ 113 0084 83308102 		ld	ra,40(sp)
+ 114              		.cfi_restore 1
+ 115 0088 03340102 		ld	s0,32(sp)
+ 116              		.cfi_restore 8
+ 117              		.cfi_def_cfa 2, 48
+ 118 008c 83348101 		ld	s1,24(sp)
+ 119              		.cfi_restore 9
+ 120 0090 03390101 		ld	s2,16(sp)
+ 121              		.cfi_restore 18
+ 122              	.LVL9:
+ 123 0094 83398100 		ld	s3,8(sp)
+ 124              		.cfi_restore 19
+ 125 0098 13010103 		addi	sp,sp,48
+ 126              		.cfi_def_cfa_offset 0
+ 127 009c 67800000 		jr	ra
+ 128              		.cfi_endproc
+ 129              	.LFE29:
+ 130              		.globl	__gxx_personality_v0
+ 131              		.section	.gcc_except_table,"a",@progbits
+ 132              	.LLSDA29:
+ 133 0000 FF       		.byte	0xff
+ 134 0001 FF       		.byte	0xff
+ 135 0002 03       		.byte	0x3
+ 136 0003 00       		.byte	0
+ 137              		.text
+ 139              		.globl	_ZN13SemaforKernelD1Ev
+ 140              		.set	_ZN13SemaforKernelD1Ev,_ZN13SemaforKernelD2Ev
+ 141              		.align	2
+ 142              		.globl	_ZN13SemaforKernelD0Ev
+ 144              	_ZN13SemaforKernelD0Ev:
+ 145              	.LFB31:
+  16:src/SemaforKernel.cpp **** 
+ 146              		.loc 1 16 1 is_stmt 1
+ 147              		.cfi_startproc
+ 148              	.LVL10:
+ 149 00a0 130101FE 		addi	sp,sp,-32
+GAS LISTING /tmp/ccKBUPHF.s 			page 6
+
+
+ 150              		.cfi_def_cfa_offset 32
+ 151 00a4 233C1100 		sd	ra,24(sp)
+ 152 00a8 23388100 		sd	s0,16(sp)
+ 153 00ac 23349100 		sd	s1,8(sp)
+ 154              		.cfi_offset 1, -8
+ 155              		.cfi_offset 8, -16
+ 156              		.cfi_offset 9, -24
+ 157 00b0 13040102 		addi	s0,sp,32
+ 158              		.cfi_def_cfa 8, 0
+ 159 00b4 93040500 		mv	s1,a0
+ 160              		.loc 1 23 1 is_stmt 0
+ 161 00b8 97000000 		call	_ZN13SemaforKernelD1Ev
+ 161      E7800000 
+ 162              	.LVL11:
+ 163              	.LBB49:
+ 164              	.LBB50:
+ 165              		.file 3 "src/../h/SemaforKernel.hpp"
+   1:src/../h/SemaforKernel.hpp **** //
+   2:src/../h/SemaforKernel.hpp **** // Created by os on 3/12/25.
+   3:src/../h/SemaforKernel.hpp **** //
+   4:src/../h/SemaforKernel.hpp **** 
+   5:src/../h/SemaforKernel.hpp **** #ifndef SEMAFORKERNEL_H
+   6:src/../h/SemaforKernel.hpp **** #define SEMAFORKERNEL_H
+   7:src/../h/SemaforKernel.hpp **** 
+   8:src/../h/SemaforKernel.hpp **** #include "../h/list.hpp"
+   9:src/../h/SemaforKernel.hpp **** 
+  10:src/../h/SemaforKernel.hpp **** #include "../h/tcb.hpp"
+  11:src/../h/SemaforKernel.hpp **** 
+  12:src/../h/SemaforKernel.hpp **** #include "../h/scheduler.hpp"
+  13:src/../h/SemaforKernel.hpp **** 
+  14:src/../h/SemaforKernel.hpp **** class TCB;
+  15:src/../h/SemaforKernel.hpp **** 
+  16:src/../h/SemaforKernel.hpp **** class SemaforKernel {
+  17:src/../h/SemaforKernel.hpp **** 
+  18:src/../h/SemaforKernel.hpp **** public:
+  19:src/../h/SemaforKernel.hpp **** 
+  20:src/../h/SemaforKernel.hpp ****   friend class TCB;
+  21:src/../h/SemaforKernel.hpp **** 
+  22:src/../h/SemaforKernel.hpp ****   virtual ~SemaforKernel();
+  23:src/../h/SemaforKernel.hpp **** 
+  24:src/../h/SemaforKernel.hpp ****   int wait();
+  25:src/../h/SemaforKernel.hpp **** 
+  26:src/../h/SemaforKernel.hpp ****   int signal();
+  27:src/../h/SemaforKernel.hpp **** 
+  28:src/../h/SemaforKernel.hpp ****   static SemaforKernel* open(int value);
+  29:src/../h/SemaforKernel.hpp **** 
+  30:src/../h/SemaforKernel.hpp ****   int close();
+  31:src/../h/SemaforKernel.hpp **** 
+  32:src/../h/SemaforKernel.hpp ****     void* operator new(size_t size){ return MemoryAllocator::createAllocator()->alloc(size); }
+  33:src/../h/SemaforKernel.hpp ****     void operator delete(void* p){ MemoryAllocator::createAllocator()->dealloc(p); }
+ 166              		.loc 3 33 36 is_stmt 1
+ 167              		.loc 3 33 79 is_stmt 0
+ 168 00c0 97000000 		call	_ZN15MemoryAllocator15createAllocatorEv@plt
+ 168      E7800000 
+ 169              	.LVL12:
+ 170 00c8 93850400 		mv	a1,s1
+ 171 00cc 97000000 		call	_ZN15MemoryAllocator7deallocEPv@plt
+GAS LISTING /tmp/ccKBUPHF.s 			page 7
+
+
+ 171      E7800000 
+ 172              	.LVL13:
+ 173              	.LBE50:
+ 174              	.LBE49:
+ 175              		.loc 1 23 1
+ 176 00d4 83308101 		ld	ra,24(sp)
+ 177              		.cfi_restore 1
+ 178 00d8 03340101 		ld	s0,16(sp)
+ 179              		.cfi_restore 8
+ 180              		.cfi_def_cfa 2, 32
+ 181 00dc 83348100 		ld	s1,8(sp)
+ 182              		.cfi_restore 9
+ 183              	.LVL14:
+ 184 00e0 13010102 		addi	sp,sp,32
+ 185              		.cfi_def_cfa_offset 0
+ 186 00e4 67800000 		jr	ra
+ 187              		.cfi_endproc
+ 188              	.LFE31:
+ 190              		.align	2
+ 191              		.globl	_ZN13SemaforKernelC2Ei
+ 193              	_ZN13SemaforKernelC2Ei:
+ 194              	.LFB25:
+   7:src/SemaforKernel.cpp ****   val=value;
+ 195              		.loc 1 7 1 is_stmt 1
+ 196              		.cfi_startproc
+ 197              	.LVL15:
+ 198 00e8 130101FF 		addi	sp,sp,-16
+ 199              		.cfi_def_cfa_offset 16
+ 200 00ec 23348100 		sd	s0,8(sp)
+ 201              		.cfi_offset 8, -8
+ 202 00f0 13040101 		addi	s0,sp,16
+ 203              		.cfi_def_cfa 8, 0
+ 204              	.LBB51:
+   7:src/SemaforKernel.cpp ****   val=value;
+ 205              		.loc 1 7 39 is_stmt 0
+ 206 00f4 97070000 		lla	a5,_ZTV13SemaforKernel+16
+ 206      93870700 
+ 207 00fc 2330F500 		sd	a5,0(a0)
+ 208              	.LVL16:
+ 209              	.LBB52:
+ 210              	.LBB53:
+  31:src/../h/../h/list.hpp **** 
+ 211              		.loc 2 31 29
+ 212 0100 23340500 		sd	zero,8(a0)
+ 213 0104 23380500 		sd	zero,16(a0)
+ 214              	.LVL17:
+ 215              	.LBE53:
+ 216              	.LBE52:
+   8:src/SemaforKernel.cpp **** 
+ 217              		.loc 1 8 3 is_stmt 1
+   8:src/SemaforKernel.cpp **** 
+ 218              		.loc 1 8 6 is_stmt 0
+ 219 0108 232CB500 		sw	a1,24(a0)
+ 220              	.LBE51:
+  10:src/SemaforKernel.cpp **** 
+ 221              		.loc 1 10 1
+ 222 010c 03348100 		ld	s0,8(sp)
+GAS LISTING /tmp/ccKBUPHF.s 			page 8
+
+
+ 223              		.cfi_restore 8
+ 224              		.cfi_def_cfa 2, 16
+ 225 0110 13010101 		addi	sp,sp,16
+ 226              		.cfi_def_cfa_offset 0
+ 227 0114 67800000 		jr	ra
+ 228              		.cfi_endproc
+ 229              	.LFE25:
+ 231              		.globl	_ZN13SemaforKernelC1Ei
+ 232              		.set	_ZN13SemaforKernelC1Ei,_ZN13SemaforKernelC2Ei
+ 233              		.align	2
+ 234              		.globl	_ZN13SemaforKernel4openEi
+ 236              	_ZN13SemaforKernel4openEi:
+ 237              	.LFB27:
+  12:src/SemaforKernel.cpp ****   return new SemaforKernel(value);
+ 238              		.loc 1 12 46 is_stmt 1
+ 239              		.cfi_startproc
+ 240              	.LVL18:
+ 241 0118 130101FE 		addi	sp,sp,-32
+ 242              		.cfi_def_cfa_offset 32
+ 243 011c 233C1100 		sd	ra,24(sp)
+ 244 0120 23388100 		sd	s0,16(sp)
+ 245 0124 23349100 		sd	s1,8(sp)
+ 246 0128 23302101 		sd	s2,0(sp)
+ 247              		.cfi_offset 1, -8
+ 248              		.cfi_offset 8, -16
+ 249              		.cfi_offset 9, -24
+ 250              		.cfi_offset 18, -32
+ 251 012c 13040102 		addi	s0,sp,32
+ 252              		.cfi_def_cfa 8, 0
+ 253 0130 13090500 		mv	s2,a0
+  13:src/SemaforKernel.cpp **** }
+ 254              		.loc 1 13 3
+ 255              	.LVL19:
+ 256              	.LBB54:
+ 257              	.LBB55:
+  32:src/../h/SemaforKernel.hpp ****     void operator delete(void* p){ MemoryAllocator::createAllocator()->dealloc(p); }
+ 258              		.loc 3 32 38
+  32:src/../h/SemaforKernel.hpp ****     void operator delete(void* p){ MemoryAllocator::createAllocator()->dealloc(p); }
+ 259              		.loc 3 32 86 is_stmt 0
+ 260 0134 97000000 		call	_ZN15MemoryAllocator15createAllocatorEv@plt
+ 260      E7800000 
+ 261              	.LVL20:
+ 262 013c 93050002 		li	a1,32
+ 263 0140 97000000 		call	_ZN15MemoryAllocator5allocEm@plt
+ 263      E7800000 
+ 264              	.LVL21:
+ 265 0148 93040500 		mv	s1,a0
+ 266              	.LVL22:
+ 267              	.LBE55:
+ 268              	.LBE54:
+  13:src/SemaforKernel.cpp **** }
+ 269              		.loc 1 13 33
+ 270 014c 93050900 		mv	a1,s2
+ 271 0150 97000000 		call	_ZN13SemaforKernelC1Ei
+ 271      E7800000 
+ 272              	.LVL23:
+  14:src/SemaforKernel.cpp **** 
+GAS LISTING /tmp/ccKBUPHF.s 			page 9
+
+
+ 273              		.loc 1 14 1
+ 274 0158 13850400 		mv	a0,s1
+ 275 015c 83308101 		ld	ra,24(sp)
+ 276              		.cfi_restore 1
+ 277 0160 03340101 		ld	s0,16(sp)
+ 278              		.cfi_restore 8
+ 279              		.cfi_def_cfa 2, 32
+ 280 0164 83348100 		ld	s1,8(sp)
+ 281              		.cfi_restore 9
+ 282 0168 03390100 		ld	s2,0(sp)
+ 283              		.cfi_restore 18
+ 284 016c 13010102 		addi	sp,sp,32
+ 285              		.cfi_def_cfa_offset 0
+ 286 0170 67800000 		jr	ra
+ 287              		.cfi_endproc
+ 288              	.LFE27:
+ 290              		.align	2
+ 291              		.globl	_ZN13SemaforKernel4waitEv
+ 293              	_ZN13SemaforKernel4waitEv:
+ 294              	.LFB32:
+  24:src/SemaforKernel.cpp **** 
+  25:src/SemaforKernel.cpp **** int SemaforKernel::wait(){
+ 295              		.loc 1 25 26 is_stmt 1
+ 296              		.cfi_startproc
+ 297              	.LVL24:
+  26:src/SemaforKernel.cpp ****   val--;
+ 298              		.loc 1 26 3
+ 299 0174 83278501 		lw	a5,24(a0)
+ 300              		.loc 1 26 6 is_stmt 0
+ 301 0178 9B87F7FF 		addiw	a5,a5,-1
+ 302 017c 232CF500 		sw	a5,24(a0)
+  27:src/SemaforKernel.cpp ****   if(val<0){
+ 303              		.loc 1 27 3 is_stmt 1
+ 304              	.LBB65:
+ 305 0180 13970702 		slli	a4,a5,32
+ 306 0184 63400702 		bltz	a4,.L28
+ 307              	.LBE65:
+  28:src/SemaforKernel.cpp ****     waitingThreads.addLast(TCB::running);
+  29:src/SemaforKernel.cpp **** 
+  30:src/SemaforKernel.cpp ****      TCB* old=TCB::running;
+  31:src/SemaforKernel.cpp ****      TCB* newT=Scheduler::get();
+  32:src/SemaforKernel.cpp ****      TCB::running=newT;
+  33:src/SemaforKernel.cpp **** 
+  34:src/SemaforKernel.cpp ****      TCB::contextSwitch(&old->context,&newT->context);
+  35:src/SemaforKernel.cpp ****   }
+  36:src/SemaforKernel.cpp **** 
+  37:src/SemaforKernel.cpp ****   if(TCB::running->semDead) return -1;
+ 308              		.loc 1 37 3
+ 309              		.loc 1 37 20 is_stmt 0
+ 310 0188 97070000 		la	a5,_ZN3TCB7runningE
+ 310      83B70700 
+ 311 0190 83B70700 		ld	a5,0(a5)
+ 312 0194 83C79702 		lbu	a5,41(a5)
+ 313              		.loc 1 37 3
+ 314 0198 639C070C 		bnez	a5,.L29
+  38:src/SemaforKernel.cpp ****   else return 0;
+ 315              		.loc 1 38 15
+GAS LISTING /tmp/ccKBUPHF.s 			page 10
+
+
+ 316 019c 13050000 		li	a0,0
+ 317              	.LVL25:
+  39:src/SemaforKernel.cpp **** }
+ 318              		.loc 1 39 1
+ 319 01a0 67800000 		ret
+ 320              	.LVL26:
+ 321              	.L28:
+  25:src/SemaforKernel.cpp ****   val--;
+ 322              		.loc 1 25 26
+ 323 01a4 130101FD 		addi	sp,sp,-48
+ 324              		.cfi_def_cfa_offset 48
+ 325 01a8 23341102 		sd	ra,40(sp)
+ 326 01ac 23308102 		sd	s0,32(sp)
+ 327 01b0 233C9100 		sd	s1,24(sp)
+ 328 01b4 23382101 		sd	s2,16(sp)
+ 329 01b8 23343101 		sd	s3,8(sp)
+ 330              		.cfi_offset 1, -8
+ 331              		.cfi_offset 8, -16
+ 332              		.cfi_offset 9, -24
+ 333              		.cfi_offset 18, -32
+ 334              		.cfi_offset 19, -40
+ 335 01bc 13040103 		addi	s0,sp,48
+ 336              		.cfi_def_cfa 8, 0
+ 337 01c0 93040500 		mv	s1,a0
+ 338              	.LBB76:
+ 339              	.LBB66:
+  28:src/SemaforKernel.cpp **** 
+ 340              		.loc 1 28 5 is_stmt 1
+  28:src/SemaforKernel.cpp **** 
+ 341              		.loc 1 28 27 is_stmt 0
+ 342 01c4 13098500 		addi	s2,a0,8
+ 343 01c8 97070000 		la	a5,_ZN3TCB7runningE
+ 343      83B70700 
+ 344 01d0 83B90700 		ld	s3,0(a5)
+ 345              	.LVL27:
+ 346              	.LBB67:
+ 347              	.LBB68:
+ 348              	.LBB69:
+ 349              	.LBB70:
+  24:src/../h/../h/list.hpp ****          void operator delete(void *p) { MemoryAllocator::createAllocator()->dealloc(p); }
+ 350              		.loc 2 24 92
+ 351 01d4 97000000 		call	_ZN15MemoryAllocator15createAllocatorEv@plt
+ 351      E7800000 
+ 352              	.LVL28:
+ 353 01dc 93050001 		li	a1,16
+ 354 01e0 97000000 		call	_ZN15MemoryAllocator5allocEm@plt
+ 354      E7800000 
+ 355              	.LVL29:
+ 356              	.LBE70:
+ 357              	.LBE69:
+ 358              	.LBB71:
+ 359              	.LBB72:
+  22:src/../h/../h/list.hpp **** 
+ 360              		.loc 2 22 58
+ 361 01e8 23303501 		sd	s3,0(a0)
+ 362 01ec 23340500 		sd	zero,8(a0)
+ 363              	.LVL30:
+GAS LISTING /tmp/ccKBUPHF.s 			page 11
+
+
+ 364              	.LBE72:
+ 365              	.LBE71:
+  47:src/../h/../h/list.hpp ****         {
+ 366              		.loc 2 47 13
+ 367 01f0 83378900 		ld	a5,8(s2)
+  47:src/../h/../h/list.hpp ****         {
+ 368              		.loc 2 47 9
+ 369 01f4 63840706 		beqz	a5,.L17
+  49:src/../h/../h/list.hpp ****             tail = elem;
+ 370              		.loc 2 49 13
+ 371 01f8 23B4A700 		sd	a0,8(a5)
+  50:src/../h/../h/list.hpp ****         } else
+ 372              		.loc 2 50 13
+ 373 01fc 2334A900 		sd	a0,8(s2)
+ 374              	.L18:
+ 375              	.LVL31:
+ 376              	.LBE68:
+ 377              	.LBE67:
+  30:src/SemaforKernel.cpp ****      TCB* newT=Scheduler::get();
+ 378              		.loc 1 30 6 is_stmt 1
+  30:src/SemaforKernel.cpp ****      TCB* newT=Scheduler::get();
+ 379              		.loc 1 30 11 is_stmt 0
+ 380 0200 97040000 		la	s1,_ZN3TCB7runningE
+ 380      83B40400 
+ 381              	.LVL32:
+ 382 0208 03B90400 		ld	s2,0(s1)
+ 383              	.LVL33:
+  31:src/SemaforKernel.cpp ****      TCB::running=newT;
+ 384              		.loc 1 31 6 is_stmt 1
+  31:src/SemaforKernel.cpp ****      TCB::running=newT;
+ 385              		.loc 1 31 30 is_stmt 0
+ 386 020c 97000000 		call	_ZN9Scheduler3getEv@plt
+ 386      E7800000 
+ 387              	.LVL34:
+  32:src/SemaforKernel.cpp **** 
+ 388              		.loc 1 32 6 is_stmt 1
+  32:src/SemaforKernel.cpp **** 
+ 389              		.loc 1 32 18 is_stmt 0
+ 390 0214 23B0A400 		sd	a0,0(s1)
+  34:src/SemaforKernel.cpp ****   }
+ 391              		.loc 1 34 6 is_stmt 1
+  34:src/SemaforKernel.cpp ****   }
+ 392              		.loc 1 34 24 is_stmt 0
+ 393 0218 93050501 		addi	a1,a0,16
+ 394 021c 13050901 		addi	a0,s2,16
+ 395              	.LVL35:
+ 396 0220 97000000 		call	_ZN3TCB13contextSwitchEPNS_7ContextES1_@plt
+ 396      E7800000 
+ 397              	.LVL36:
+ 398              	.LBE66:
+ 399              	.LBE76:
+  37:src/SemaforKernel.cpp ****   else return 0;
+ 400              		.loc 1 37 3 is_stmt 1
+  37:src/SemaforKernel.cpp ****   else return 0;
+ 401              		.loc 1 37 20 is_stmt 0
+ 402 0228 97070000 		la	a5,_ZN3TCB7runningE
+ 402      83B70700 
+GAS LISTING /tmp/ccKBUPHF.s 			page 12
+
+
+ 403 0230 83B70700 		ld	a5,0(a5)
+ 404 0234 83C79702 		lbu	a5,41(a5)
+  37:src/SemaforKernel.cpp ****   else return 0;
+ 405              		.loc 1 37 3
+ 406 0238 63980702 		bnez	a5,.L30
+  38:src/SemaforKernel.cpp **** }
+ 407              		.loc 1 38 15
+ 408 023c 13050000 		li	a0,0
+ 409              	.L19:
+ 410              		.loc 1 39 1
+ 411 0240 83308102 		ld	ra,40(sp)
+ 412              		.cfi_remember_state
+ 413              		.cfi_restore 1
+ 414 0244 03340102 		ld	s0,32(sp)
+ 415              		.cfi_restore 8
+ 416              		.cfi_def_cfa 2, 48
+ 417 0248 83348101 		ld	s1,24(sp)
+ 418              		.cfi_restore 9
+ 419 024c 03390101 		ld	s2,16(sp)
+ 420              		.cfi_restore 18
+ 421              	.LVL37:
+ 422 0250 83398100 		ld	s3,8(sp)
+ 423              		.cfi_restore 19
+ 424 0254 13010103 		addi	sp,sp,48
+ 425              		.cfi_def_cfa_offset 0
+ 426 0258 67800000 		jr	ra
+ 427              	.LVL38:
+ 428              	.L17:
+ 429              		.cfi_restore_state
+ 430              	.LBB77:
+ 431              	.LBB75:
+ 432              	.LBB74:
+ 433              	.LBB73:
+  53:src/../h/../h/list.hpp ****         }
+ 434              		.loc 2 53 13
+ 435 025c 2334A900 		sd	a0,8(s2)
+ 436 0260 23B4A400 		sd	a0,8(s1)
+ 437 0264 6FF0DFF9 		j	.L18
+ 438              	.LVL39:
+ 439              	.L30:
+ 440              	.LBE73:
+ 441              	.LBE74:
+ 442              	.LBE75:
+ 443              	.LBE77:
+  37:src/SemaforKernel.cpp ****   else return 0;
+ 444              		.loc 1 37 37
+ 445 0268 1305F0FF 		li	a0,-1
+ 446 026c 6FF05FFD 		j	.L19
+ 447              	.LVL40:
+ 448              	.L29:
+ 449              		.cfi_def_cfa_register 2
+ 450              		.cfi_restore 1
+ 451              		.cfi_restore 8
+ 452              		.cfi_restore 9
+ 453              		.cfi_restore 18
+ 454              		.cfi_restore 19
+ 455 0270 1305F0FF 		li	a0,-1
+GAS LISTING /tmp/ccKBUPHF.s 			page 13
+
+
+ 456              	.LVL41:
+ 457 0274 67800000 		ret
+ 458              		.cfi_endproc
+ 459              	.LFE32:
+ 461              		.align	2
+ 462              		.globl	_ZN13SemaforKernel6signalEv
+ 464              	_ZN13SemaforKernel6signalEv:
+ 465              	.LFB33:
+  40:src/SemaforKernel.cpp **** 
+  41:src/SemaforKernel.cpp **** int SemaforKernel::signal(){
+ 466              		.loc 1 41 28 is_stmt 1
+ 467              		.cfi_startproc
+ 468              	.LVL42:
+  42:src/SemaforKernel.cpp ****   val++;
+ 469              		.loc 1 42 3
+ 470 0278 83278501 		lw	a5,24(a0)
+ 471              		.loc 1 42 6 is_stmt 0
+ 472 027c 9B871700 		addiw	a5,a5,1
+ 473 0280 1B870700 		sext.w	a4,a5
+ 474 0284 232CF500 		sw	a5,24(a0)
+  43:src/SemaforKernel.cpp ****   if(val<=0){
+ 475              		.loc 1 43 3 is_stmt 1
+ 476              	.LBB88:
+ 477 0288 6356E000 		blez	a4,.L44
+ 478              	.LBE88:
+  44:src/SemaforKernel.cpp ****     if(!waitingThreads.peekFirst()) return -1;
+  45:src/SemaforKernel.cpp **** 
+  46:src/SemaforKernel.cpp ****     TCB* away=waitingThreads.removeFirst();
+  47:src/SemaforKernel.cpp ****     if(away->isFinished()) return -1;
+  48:src/SemaforKernel.cpp ****     Scheduler::put(away);
+  49:src/SemaforKernel.cpp **** 
+  50:src/SemaforKernel.cpp ****   }
+  51:src/SemaforKernel.cpp ****   return 0;
+ 479              		.loc 1 51 10 is_stmt 0
+ 480 028c 13050000 		li	a0,0
+ 481              	.LVL43:
+ 482 0290 67800000 		ret
+ 483              	.LVL44:
+ 484              	.L44:
+ 485              	.LBB103:
+ 486              	.LBB89:
+  44:src/SemaforKernel.cpp ****     if(!waitingThreads.peekFirst()) return -1;
+ 487              		.loc 1 44 5 is_stmt 1
+ 488              	.LBB90:
+ 489              	.LBB91:
+  72:src/../h/../h/list.hpp ****         return head->data;
+ 490              		.loc 2 72 14 is_stmt 0
+ 491 0294 83378500 		ld	a5,8(a0)
+  72:src/../h/../h/list.hpp ****         return head->data;
+ 492              		.loc 2 72 9
+ 493 0298 63880708 		beqz	a5,.L36
+  73:src/../h/../h/list.hpp ****     }
+ 494              		.loc 2 73 22
+ 495 029c 83B70700 		ld	a5,0(a5)
+ 496              	.LVL45:
+ 497              	.LBE91:
+ 498              	.LBE90:
+GAS LISTING /tmp/ccKBUPHF.s 			page 14
+
+
+  44:src/SemaforKernel.cpp ****     if(!waitingThreads.peekFirst()) return -1;
+ 499              		.loc 1 44 5
+ 500 02a0 63880708 		beqz	a5,.L37
+ 501              	.LBE89:
+ 502              	.LBE103:
+  41:src/SemaforKernel.cpp ****   val++;
+ 503              		.loc 1 41 28
+ 504 02a4 130101FE 		addi	sp,sp,-32
+ 505              		.cfi_def_cfa_offset 32
+ 506 02a8 233C1100 		sd	ra,24(sp)
+ 507 02ac 23388100 		sd	s0,16(sp)
+ 508 02b0 23349100 		sd	s1,8(sp)
+ 509 02b4 23302101 		sd	s2,0(sp)
+ 510              		.cfi_offset 1, -8
+ 511              		.cfi_offset 8, -16
+ 512              		.cfi_offset 9, -24
+ 513              		.cfi_offset 18, -32
+ 514 02b8 13040102 		addi	s0,sp,32
+ 515              		.cfi_def_cfa 8, 0
+ 516              	.LBB104:
+ 517              	.LBB100:
+  46:src/SemaforKernel.cpp ****     if(away->isFinished()) return -1;
+ 518              		.loc 1 46 5 is_stmt 1
+ 519              	.LBB92:
+ 520              	.LBB93:
+  59:src/../h/../h/list.hpp **** 
+ 521              		.loc 2 59 14 is_stmt 0
+ 522 02bc 83348500 		ld	s1,8(a0)
+  59:src/../h/../h/list.hpp **** 
+ 523              		.loc 2 59 9
+ 524 02c0 63800406 		beqz	s1,.L38
+ 525              	.LVL46:
+  62:src/../h/../h/list.hpp ****         if (!head) { tail = 0; }
+ 526              		.loc 2 62 22
+ 527 02c4 83B78400 		ld	a5,8(s1)
+  62:src/../h/../h/list.hpp ****         if (!head) { tail = 0; }
+ 528              		.loc 2 62 9
+ 529 02c8 2334F500 		sd	a5,8(a0)
+  63:src/../h/../h/list.hpp **** 
+ 530              		.loc 2 63 9
+ 531 02cc 63860704 		beqz	a5,.L45
+ 532              	.L34:
+  65:src/../h/../h/list.hpp ****         delete elem;
+ 533              		.loc 2 65 12
+ 534 02d0 03B90400 		ld	s2,0(s1)
+ 535              	.LVL47:
+ 536              	.LBB94:
+ 537              	.LBB95:
+  25:src/../h/../h/list.hpp ****     };
+ 538              		.loc 2 25 85
+ 539 02d4 97000000 		call	_ZN15MemoryAllocator15createAllocatorEv@plt
+ 539      E7800000 
+ 540              	.LVL48:
+ 541 02dc 93850400 		mv	a1,s1
+ 542 02e0 97000000 		call	_ZN15MemoryAllocator7deallocEPv@plt
+ 542      E7800000 
+ 543              	.LVL49:
+GAS LISTING /tmp/ccKBUPHF.s 			page 15
+
+
+ 544              	.L33:
+ 545              	.LBE95:
+ 546              	.LBE94:
+ 547              	.LBE93:
+ 548              	.LBE92:
+  47:src/SemaforKernel.cpp ****     Scheduler::put(away);
+ 549              		.loc 1 47 5 is_stmt 1
+ 550              	.LBB97:
+ 551              	.LBB98:
+ 552              		.file 4 "src/../h/../h/tcb.hpp"
+   1:src/../h/../h/tcb.hpp **** //
+   2:src/../h/../h/tcb.hpp **** // Created by os on 3/3/25.
+   3:src/../h/../h/tcb.hpp **** //
+   4:src/../h/../h/tcb.hpp **** //Thread Control Block
+   5:src/../h/../h/tcb.hpp **** #ifndef _TCB_H
+   6:src/../h/../h/tcb.hpp **** #define _TCB_H
+   7:src/../h/../h/tcb.hpp **** 
+   8:src/../h/../h/tcb.hpp **** #include "../lib/hw.h"
+   9:src/../h/../h/tcb.hpp **** #include "../h/scheduler.hpp"
+  10:src/../h/../h/tcb.hpp **** #include "../h/syscall_c.hpp"
+  11:src/../h/../h/tcb.hpp **** 
+  12:src/../h/../h/tcb.hpp **** 
+  13:src/../h/../h/tcb.hpp **** //this is thread control block,information about every created thread
+  14:src/../h/../h/tcb.hpp **** class TCB {
+  15:src/../h/../h/tcb.hpp ****   public:
+  16:src/../h/../h/tcb.hpp **** 
+  17:src/../h/../h/tcb.hpp ****     ~TCB();
+  18:src/../h/../h/tcb.hpp **** 
+  19:src/../h/../h/tcb.hpp ****     friend class SemaforKernel;
+  20:src/../h/../h/tcb.hpp **** 
+  21:src/../h/../h/tcb.hpp ****     using ThreadFunction=void (*)(void*);
+  22:src/../h/../h/tcb.hpp **** 
+  23:src/../h/../h/tcb.hpp ****     bool isFinished() const{ return finished; }
+ 553              		.loc 4 23 30
+ 554              		.loc 4 23 37 is_stmt 0
+ 555 02e8 83478902 		lbu	a5,40(s2)
+ 556              	.LVL50:
+ 557              	.LBE98:
+ 558              	.LBE97:
+  47:src/SemaforKernel.cpp ****     Scheduler::put(away);
+ 559              		.loc 1 47 5
+ 560 02ec 63960704 		bnez	a5,.L39
+  48:src/SemaforKernel.cpp **** 
+ 561              		.loc 1 48 5 is_stmt 1
+  48:src/SemaforKernel.cpp **** 
+ 562              		.loc 1 48 19 is_stmt 0
+ 563 02f0 13050900 		mv	a0,s2
+ 564 02f4 97000000 		call	_ZN9Scheduler3putEP3TCB@plt
+ 564      E7800000 
+ 565              	.LVL51:
+ 566              	.LBE100:
+ 567              	.LBE104:
+ 568              		.loc 1 51 10
+ 569 02fc 13050000 		li	a0,0
+ 570              	.L32:
+  52:src/SemaforKernel.cpp **** }
+ 571              		.loc 1 52 1
+GAS LISTING /tmp/ccKBUPHF.s 			page 16
+
+
+ 572 0300 83308101 		ld	ra,24(sp)
+ 573              		.cfi_remember_state
+ 574              		.cfi_restore 1
+ 575 0304 03340101 		ld	s0,16(sp)
+ 576              		.cfi_restore 8
+ 577              		.cfi_def_cfa 2, 32
+ 578 0308 83348100 		ld	s1,8(sp)
+ 579              		.cfi_restore 9
+ 580 030c 03390100 		ld	s2,0(sp)
+ 581              		.cfi_restore 18
+ 582              	.LVL52:
+ 583 0310 13010102 		addi	sp,sp,32
+ 584              		.cfi_def_cfa_offset 0
+ 585 0314 67800000 		jr	ra
+ 586              	.LVL53:
+ 587              	.L45:
+ 588              		.cfi_restore_state
+ 589              	.LBB105:
+ 590              	.LBB101:
+ 591              	.LBB99:
+ 592              	.LBB96:
+  63:src/../h/../h/list.hpp **** 
+ 593              		.loc 2 63 22
+ 594 0318 23380500 		sd	zero,16(a0)
+ 595 031c 6FF05FFB 		j	.L34
+ 596              	.LVL54:
+ 597              	.L38:
+  59:src/../h/../h/list.hpp **** 
+ 598              		.loc 2 59 29
+ 599 0320 13890400 		mv	s2,s1
+ 600 0324 6FF05FFC 		j	.L33
+ 601              	.LVL55:
+ 602              	.L36:
+ 603              		.cfi_def_cfa_register 2
+ 604              		.cfi_restore 1
+ 605              		.cfi_restore 8
+ 606              		.cfi_restore 9
+ 607              		.cfi_restore 18
+ 608              	.LBE96:
+ 609              	.LBE99:
+  44:src/SemaforKernel.cpp **** 
+ 610              		.loc 1 44 45
+ 611 0328 1305F0FF 		li	a0,-1
+ 612              	.LVL56:
+ 613 032c 67800000 		ret
+ 614              	.LVL57:
+ 615              	.L37:
+ 616 0330 1305F0FF 		li	a0,-1
+ 617              	.LVL58:
+ 618              	.LBE101:
+ 619              	.LBE105:
+ 620              		.loc 1 52 1
+ 621 0334 67800000 		ret
+ 622              	.LVL59:
+ 623              	.L39:
+ 624              		.cfi_def_cfa_register 8
+ 625              		.cfi_offset 1, -8
+GAS LISTING /tmp/ccKBUPHF.s 			page 17
+
+
+ 626              		.cfi_offset 8, -16
+ 627              		.cfi_offset 9, -24
+ 628              		.cfi_offset 18, -32
+ 629              	.LBB106:
+ 630              	.LBB102:
+  47:src/SemaforKernel.cpp ****     Scheduler::put(away);
+ 631              		.loc 1 47 36
+ 632 0338 1305F0FF 		li	a0,-1
+ 633 033c 6FF05FFC 		j	.L32
+ 634              	.LBE102:
+ 635              	.LBE106:
+ 636              		.cfi_endproc
+ 637              	.LFE33:
+ 639              		.weak	_ZTV13SemaforKernel
+ 640              		.section	.data.rel.ro.local._ZTV13SemaforKernel,"awG",@progbits,_ZTV13SemaforKernel,comdat
+ 641              		.align	3
+ 644              	_ZTV13SemaforKernel:
+ 645 0000 00000000 		.dword	0
+ 645      00000000 
+ 646 0008 00000000 		.dword	0
+ 646      00000000 
+ 647 0010 00000000 		.dword	_ZN13SemaforKernelD1Ev
+ 647      00000000 
+ 648 0018 00000000 		.dword	_ZN13SemaforKernelD0Ev
+ 648      00000000 
+ 649              		.text
+ 650              	.Letext0:
+ 651              		.file 5 "src/../h/../h/../h/../lib/hw.h"
+ 652              		.file 6 "src/../h/../h/../h/memallocator.hpp"
+ 653              		.file 7 "src/../h/../h/../h/scheduler.hpp"
+ 4304              		.align	3
+ 4307              	DW.ref.__gxx_personality_v0:
+ 4308 0000 00000000 		.dword	__gxx_personality_v0
+ 4308      00000000 
+ 4309              		.ident	"GCC: (Ubuntu 9.4.0-1ubuntu1~20.04) 9.4.0"
+ 4310              		.section	.note.GNU-stack,"",@progbits
+GAS LISTING /tmp/ccKBUPHF.s 			page 18
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 SemaforKernel.cpp
+     /tmp/ccKBUPHF.s:9      .text:0000000000000000 _ZN13SemaforKernelD2Ev
+     /tmp/ccKBUPHF.s:13     .text:0000000000000000 .L0 
+     /tmp/ccKBUPHF.s:4307   .data.rel.local.DW.ref.__gxx_personality_v0:0000000000000000 DW.ref.__gxx_personality_v0
+     /tmp/ccKBUPHF.s:17     .text:0000000000000000 .L0 
+     /tmp/ccKBUPHF.s:18     .text:0000000000000004 .L0 
+     /tmp/ccKBUPHF.s:24     .text:0000000000000018 .L0 
+     /tmp/ccKBUPHF.s:25     .text:0000000000000018 .L0 
+     /tmp/ccKBUPHF.s:26     .text:0000000000000018 .L0 
+     /tmp/ccKBUPHF.s:27     .text:0000000000000018 .L0 
+     /tmp/ccKBUPHF.s:28     .text:0000000000000018 .L0 
+     /tmp/ccKBUPHF.s:30     .text:000000000000001c .L0 
+     /tmp/ccKBUPHF.s:644    .data.rel.ro.local._ZTV13SemaforKernel:0000000000000000 _ZTV13SemaforKernel
+     /tmp/ccKBUPHF.s:34     .text:0000000000000020 .L0 
+     /tmp/ccKBUPHF.s:45     .text:0000000000000030 .L0 
+     /tmp/ccKBUPHF.s:48     .text:0000000000000034 .L0 
+     /tmp/ccKBUPHF.s:53     .text:0000000000000038 .L0 
+     /tmp/ccKBUPHF.s:64     .text:000000000000004c .L0 
+     /tmp/ccKBUPHF.s:65     .text:000000000000004c .L0 
+     /tmp/ccKBUPHF.s:71     .text:0000000000000054 .L0 
+     /tmp/ccKBUPHF.s:74     .text:0000000000000054 .L0 
+     /tmp/ccKBUPHF.s:75     .text:0000000000000054 .L0 
+     /tmp/ccKBUPHF.s:77     .text:0000000000000058 .L0 
+     /tmp/ccKBUPHF.s:79     .text:000000000000005c .L0 
+     /tmp/ccKBUPHF.s:84     .text:0000000000000060 .L0 
+     /tmp/ccKBUPHF.s:89     .text:0000000000000064 .L0 
+     /tmp/ccKBUPHF.s:90     .text:0000000000000064 .L0 
+     /tmp/ccKBUPHF.s:92     .text:0000000000000068 .L0 
+     /tmp/ccKBUPHF.s:95     .text:000000000000006c .L0 
+     /tmp/ccKBUPHF.s:97     .text:0000000000000070 .L0 
+     /tmp/ccKBUPHF.s:99     .text:0000000000000074 .L0 
+     /tmp/ccKBUPHF.s:104    .text:000000000000007c .L0 
+     /tmp/ccKBUPHF.s:113    .text:0000000000000084 .L0 
+     /tmp/ccKBUPHF.s:114    .text:0000000000000088 .L0 
+     /tmp/ccKBUPHF.s:116    .text:000000000000008c .L0 
+     /tmp/ccKBUPHF.s:117    .text:000000000000008c .L0 
+     /tmp/ccKBUPHF.s:119    .text:0000000000000090 .L0 
+     /tmp/ccKBUPHF.s:121    .text:0000000000000094 .L0 
+     /tmp/ccKBUPHF.s:124    .text:0000000000000098 .L0 
+     /tmp/ccKBUPHF.s:126    .text:000000000000009c .L0 
+     /tmp/ccKBUPHF.s:128    .text:00000000000000a0 .L0 
+     /tmp/ccKBUPHF.s:9      .text:0000000000000000 _ZN13SemaforKernelD1Ev
+     /tmp/ccKBUPHF.s:144    .text:00000000000000a0 _ZN13SemaforKernelD0Ev
+     /tmp/ccKBUPHF.s:147    .text:00000000000000a0 .L0 
+     /tmp/ccKBUPHF.s:149    .text:00000000000000a0 .L0 
+     /tmp/ccKBUPHF.s:150    .text:00000000000000a4 .L0 
+     /tmp/ccKBUPHF.s:154    .text:00000000000000b0 .L0 
+     /tmp/ccKBUPHF.s:155    .text:00000000000000b0 .L0 
+     /tmp/ccKBUPHF.s:156    .text:00000000000000b0 .L0 
+     /tmp/ccKBUPHF.s:158    .text:00000000000000b4 .L0 
+     /tmp/ccKBUPHF.s:161    .text:00000000000000b8 .L0 
+     /tmp/ccKBUPHF.s:167    .text:00000000000000c0 .L0 
+     /tmp/ccKBUPHF.s:168    .text:00000000000000c0 .L0 
+     /tmp/ccKBUPHF.s:176    .text:00000000000000d4 .L0 
+     /tmp/ccKBUPHF.s:177    .text:00000000000000d8 .L0 
+     /tmp/ccKBUPHF.s:179    .text:00000000000000dc .L0 
+GAS LISTING /tmp/ccKBUPHF.s 			page 19
+
+
+     /tmp/ccKBUPHF.s:180    .text:00000000000000dc .L0 
+     /tmp/ccKBUPHF.s:182    .text:00000000000000e0 .L0 
+     /tmp/ccKBUPHF.s:185    .text:00000000000000e4 .L0 
+     /tmp/ccKBUPHF.s:187    .text:00000000000000e8 .L0 
+     /tmp/ccKBUPHF.s:193    .text:00000000000000e8 _ZN13SemaforKernelC2Ei
+     /tmp/ccKBUPHF.s:196    .text:00000000000000e8 .L0 
+     /tmp/ccKBUPHF.s:198    .text:00000000000000e8 .L0 
+     /tmp/ccKBUPHF.s:199    .text:00000000000000ec .L0 
+     /tmp/ccKBUPHF.s:201    .text:00000000000000f0 .L0 
+     /tmp/ccKBUPHF.s:203    .text:00000000000000f4 .L0 
+     /tmp/ccKBUPHF.s:206    .text:00000000000000f4 .L0 
+     /tmp/ccKBUPHF.s:212    .text:0000000000000100 .L0 
+     /tmp/ccKBUPHF.s:218    .text:0000000000000108 .L0 
+     /tmp/ccKBUPHF.s:219    .text:0000000000000108 .L0 
+     /tmp/ccKBUPHF.s:222    .text:000000000000010c .L0 
+     /tmp/ccKBUPHF.s:223    .text:0000000000000110 .L0 
+     /tmp/ccKBUPHF.s:224    .text:0000000000000110 .L0 
+     /tmp/ccKBUPHF.s:226    .text:0000000000000114 .L0 
+     /tmp/ccKBUPHF.s:228    .text:0000000000000118 .L0 
+     /tmp/ccKBUPHF.s:193    .text:00000000000000e8 _ZN13SemaforKernelC1Ei
+     /tmp/ccKBUPHF.s:236    .text:0000000000000118 _ZN13SemaforKernel4openEi
+     /tmp/ccKBUPHF.s:239    .text:0000000000000118 .L0 
+     /tmp/ccKBUPHF.s:241    .text:0000000000000118 .L0 
+     /tmp/ccKBUPHF.s:242    .text:000000000000011c .L0 
+     /tmp/ccKBUPHF.s:247    .text:000000000000012c .L0 
+     /tmp/ccKBUPHF.s:248    .text:000000000000012c .L0 
+     /tmp/ccKBUPHF.s:249    .text:000000000000012c .L0 
+     /tmp/ccKBUPHF.s:250    .text:000000000000012c .L0 
+     /tmp/ccKBUPHF.s:252    .text:0000000000000130 .L0 
+     /tmp/ccKBUPHF.s:258    .text:0000000000000134 .L0 
+     /tmp/ccKBUPHF.s:259    .text:0000000000000134 .L0 
+     /tmp/ccKBUPHF.s:260    .text:0000000000000134 .L0 
+     /tmp/ccKBUPHF.s:270    .text:000000000000014c .L0 
+     /tmp/ccKBUPHF.s:274    .text:0000000000000158 .L0 
+     /tmp/ccKBUPHF.s:276    .text:0000000000000160 .L0 
+     /tmp/ccKBUPHF.s:278    .text:0000000000000164 .L0 
+     /tmp/ccKBUPHF.s:279    .text:0000000000000164 .L0 
+     /tmp/ccKBUPHF.s:281    .text:0000000000000168 .L0 
+     /tmp/ccKBUPHF.s:283    .text:000000000000016c .L0 
+     /tmp/ccKBUPHF.s:285    .text:0000000000000170 .L0 
+     /tmp/ccKBUPHF.s:287    .text:0000000000000174 .L0 
+     /tmp/ccKBUPHF.s:293    .text:0000000000000174 _ZN13SemaforKernel4waitEv
+     /tmp/ccKBUPHF.s:296    .text:0000000000000174 .L0 
+     /tmp/ccKBUPHF.s:298    .text:0000000000000174 .L0 
+     /tmp/ccKBUPHF.s:299    .text:0000000000000174 .L0 
+     /tmp/ccKBUPHF.s:301    .text:0000000000000178 .L0 
+     /tmp/ccKBUPHF.s:305    .text:0000000000000180 .L0 
+     /tmp/ccKBUPHF.s:309    .text:0000000000000188 .L0 
+     /tmp/ccKBUPHF.s:310    .text:0000000000000188 .L0 
+     /tmp/ccKBUPHF.s:314    .text:0000000000000198 .L0 
+     /tmp/ccKBUPHF.s:316    .text:000000000000019c .L0 
+     /tmp/ccKBUPHF.s:319    .text:00000000000001a0 .L0 
+     /tmp/ccKBUPHF.s:323    .text:00000000000001a4 .L0 
+     /tmp/ccKBUPHF.s:324    .text:00000000000001a8 .L0 
+     /tmp/ccKBUPHF.s:330    .text:00000000000001bc .L0 
+     /tmp/ccKBUPHF.s:331    .text:00000000000001bc .L0 
+     /tmp/ccKBUPHF.s:332    .text:00000000000001bc .L0 
+GAS LISTING /tmp/ccKBUPHF.s 			page 20
+
+
+     /tmp/ccKBUPHF.s:333    .text:00000000000001bc .L0 
+     /tmp/ccKBUPHF.s:334    .text:00000000000001bc .L0 
+     /tmp/ccKBUPHF.s:336    .text:00000000000001c0 .L0 
+     /tmp/ccKBUPHF.s:341    .text:00000000000001c4 .L0 
+     /tmp/ccKBUPHF.s:342    .text:00000000000001c4 .L0 
+     /tmp/ccKBUPHF.s:351    .text:00000000000001d4 .L0 
+     /tmp/ccKBUPHF.s:361    .text:00000000000001e8 .L0 
+     /tmp/ccKBUPHF.s:367    .text:00000000000001f0 .L0 
+     /tmp/ccKBUPHF.s:369    .text:00000000000001f4 .L0 
+     /tmp/ccKBUPHF.s:371    .text:00000000000001f8 .L0 
+     /tmp/ccKBUPHF.s:373    .text:00000000000001fc .L0 
+     /tmp/ccKBUPHF.s:379    .text:0000000000000200 .L0 
+     /tmp/ccKBUPHF.s:380    .text:0000000000000200 .L0 
+     /tmp/ccKBUPHF.s:385    .text:000000000000020c .L0 
+     /tmp/ccKBUPHF.s:386    .text:000000000000020c .L0 
+     /tmp/ccKBUPHF.s:389    .text:0000000000000214 .L0 
+     /tmp/ccKBUPHF.s:390    .text:0000000000000214 .L0 
+     /tmp/ccKBUPHF.s:392    .text:0000000000000218 .L0 
+     /tmp/ccKBUPHF.s:393    .text:0000000000000218 .L0 
+     /tmp/ccKBUPHF.s:401    .text:0000000000000228 .L0 
+     /tmp/ccKBUPHF.s:402    .text:0000000000000228 .L0 
+     /tmp/ccKBUPHF.s:406    .text:0000000000000238 .L0 
+     /tmp/ccKBUPHF.s:408    .text:000000000000023c .L0 
+     /tmp/ccKBUPHF.s:411    .text:0000000000000240 .L0 
+     /tmp/ccKBUPHF.s:412    .text:0000000000000244 .L0 
+     /tmp/ccKBUPHF.s:413    .text:0000000000000244 .L0 
+     /tmp/ccKBUPHF.s:415    .text:0000000000000248 .L0 
+     /tmp/ccKBUPHF.s:416    .text:0000000000000248 .L0 
+     /tmp/ccKBUPHF.s:418    .text:000000000000024c .L0 
+     /tmp/ccKBUPHF.s:420    .text:0000000000000250 .L0 
+     /tmp/ccKBUPHF.s:423    .text:0000000000000254 .L0 
+     /tmp/ccKBUPHF.s:425    .text:0000000000000258 .L0 
+     /tmp/ccKBUPHF.s:429    .text:000000000000025c .L0 
+     /tmp/ccKBUPHF.s:435    .text:000000000000025c .L0 
+     /tmp/ccKBUPHF.s:445    .text:0000000000000268 .L0 
+     /tmp/ccKBUPHF.s:449    .text:0000000000000270 .L0 
+     /tmp/ccKBUPHF.s:450    .text:0000000000000270 .L0 
+     /tmp/ccKBUPHF.s:451    .text:0000000000000270 .L0 
+     /tmp/ccKBUPHF.s:452    .text:0000000000000270 .L0 
+     /tmp/ccKBUPHF.s:453    .text:0000000000000270 .L0 
+     /tmp/ccKBUPHF.s:454    .text:0000000000000270 .L0 
+     /tmp/ccKBUPHF.s:458    .text:0000000000000278 .L0 
+     /tmp/ccKBUPHF.s:464    .text:0000000000000278 _ZN13SemaforKernel6signalEv
+     /tmp/ccKBUPHF.s:467    .text:0000000000000278 .L0 
+     /tmp/ccKBUPHF.s:469    .text:0000000000000278 .L0 
+     /tmp/ccKBUPHF.s:470    .text:0000000000000278 .L0 
+     /tmp/ccKBUPHF.s:472    .text:000000000000027c .L0 
+     /tmp/ccKBUPHF.s:477    .text:0000000000000288 .L0 
+     /tmp/ccKBUPHF.s:480    .text:000000000000028c .L0 
+     /tmp/ccKBUPHF.s:490    .text:0000000000000294 .L0 
+     /tmp/ccKBUPHF.s:491    .text:0000000000000294 .L0 
+     /tmp/ccKBUPHF.s:493    .text:0000000000000298 .L0 
+     /tmp/ccKBUPHF.s:495    .text:000000000000029c .L0 
+     /tmp/ccKBUPHF.s:500    .text:00000000000002a0 .L0 
+     /tmp/ccKBUPHF.s:504    .text:00000000000002a4 .L0 
+     /tmp/ccKBUPHF.s:505    .text:00000000000002a8 .L0 
+     /tmp/ccKBUPHF.s:510    .text:00000000000002b8 .L0 
+GAS LISTING /tmp/ccKBUPHF.s 			page 21
+
+
+     /tmp/ccKBUPHF.s:511    .text:00000000000002b8 .L0 
+     /tmp/ccKBUPHF.s:512    .text:00000000000002b8 .L0 
+     /tmp/ccKBUPHF.s:513    .text:00000000000002b8 .L0 
+     /tmp/ccKBUPHF.s:515    .text:00000000000002bc .L0 
+     /tmp/ccKBUPHF.s:521    .text:00000000000002bc .L0 
+     /tmp/ccKBUPHF.s:522    .text:00000000000002bc .L0 
+     /tmp/ccKBUPHF.s:524    .text:00000000000002c0 .L0 
+     /tmp/ccKBUPHF.s:527    .text:00000000000002c4 .L0 
+     /tmp/ccKBUPHF.s:529    .text:00000000000002c8 .L0 
+     /tmp/ccKBUPHF.s:531    .text:00000000000002cc .L0 
+     /tmp/ccKBUPHF.s:534    .text:00000000000002d0 .L0 
+     /tmp/ccKBUPHF.s:539    .text:00000000000002d4 .L0 
+     /tmp/ccKBUPHF.s:553    .text:00000000000002e8 .L0 
+     /tmp/ccKBUPHF.s:554    .text:00000000000002e8 .L0 
+     /tmp/ccKBUPHF.s:555    .text:00000000000002e8 .L0 
+     /tmp/ccKBUPHF.s:560    .text:00000000000002ec .L0 
+     /tmp/ccKBUPHF.s:562    .text:00000000000002f0 .L0 
+     /tmp/ccKBUPHF.s:563    .text:00000000000002f0 .L0 
+     /tmp/ccKBUPHF.s:569    .text:00000000000002fc .L0 
+     /tmp/ccKBUPHF.s:572    .text:0000000000000300 .L0 
+     /tmp/ccKBUPHF.s:573    .text:0000000000000304 .L0 
+     /tmp/ccKBUPHF.s:574    .text:0000000000000304 .L0 
+     /tmp/ccKBUPHF.s:576    .text:0000000000000308 .L0 
+     /tmp/ccKBUPHF.s:577    .text:0000000000000308 .L0 
+     /tmp/ccKBUPHF.s:579    .text:000000000000030c .L0 
+     /tmp/ccKBUPHF.s:581    .text:0000000000000310 .L0 
+     /tmp/ccKBUPHF.s:584    .text:0000000000000314 .L0 
+     /tmp/ccKBUPHF.s:588    .text:0000000000000318 .L0 
+     /tmp/ccKBUPHF.s:594    .text:0000000000000318 .L0 
+     /tmp/ccKBUPHF.s:599    .text:0000000000000320 .L0 
+     /tmp/ccKBUPHF.s:603    .text:0000000000000328 .L0 
+     /tmp/ccKBUPHF.s:604    .text:0000000000000328 .L0 
+     /tmp/ccKBUPHF.s:605    .text:0000000000000328 .L0 
+     /tmp/ccKBUPHF.s:606    .text:0000000000000328 .L0 
+     /tmp/ccKBUPHF.s:607    .text:0000000000000328 .L0 
+     /tmp/ccKBUPHF.s:611    .text:0000000000000328 .L0 
+     /tmp/ccKBUPHF.s:621    .text:0000000000000334 .L0 
+     /tmp/ccKBUPHF.s:624    .text:0000000000000338 .L0 
+     /tmp/ccKBUPHF.s:625    .text:0000000000000338 .L0 
+     /tmp/ccKBUPHF.s:626    .text:0000000000000338 .L0 
+     /tmp/ccKBUPHF.s:627    .text:0000000000000338 .L0 
+     /tmp/ccKBUPHF.s:628    .text:0000000000000338 .L0 
+     /tmp/ccKBUPHF.s:632    .text:0000000000000338 .L0 
+     /tmp/ccKBUPHF.s:636    .text:0000000000000340 .L0 
+     /tmp/ccKBUPHF.s:654    .text:0000000000000340 .L0 
+     /tmp/ccKBUPHF.s:34     .text:0000000000000020 .L0 
+     /tmp/ccKBUPHF.s:206    .text:00000000000000f4 .L0 
+     /tmp/ccKBUPHF.s:310    .text:0000000000000188 .L0 
+     /tmp/ccKBUPHF.s:343    .text:00000000000001c8 .L0 
+     /tmp/ccKBUPHF.s:380    .text:0000000000000200 .L0 
+     /tmp/ccKBUPHF.s:402    .text:0000000000000228 .L0 
+     /tmp/ccKBUPHF.s:68     .text:0000000000000054 .L5
+     /tmp/ccKBUPHF.s:106    .text:0000000000000084 .L1
+     /tmp/ccKBUPHF.s:102    .text:000000000000007c .L6
+     /tmp/ccKBUPHF.s:46     .text:0000000000000034 .L4
+     /tmp/ccKBUPHF.s:38     .text:0000000000000030 .L8
+     /tmp/ccKBUPHF.s:58     .text:000000000000004c .L3
+GAS LISTING /tmp/ccKBUPHF.s 			page 22
+
+
+     /tmp/ccKBUPHF.s:321    .text:00000000000001a4 .L28
+     /tmp/ccKBUPHF.s:448    .text:0000000000000270 .L29
+     /tmp/ccKBUPHF.s:428    .text:000000000000025c .L17
+     /tmp/ccKBUPHF.s:439    .text:0000000000000268 .L30
+     /tmp/ccKBUPHF.s:374    .text:0000000000000200 .L18
+     /tmp/ccKBUPHF.s:409    .text:0000000000000240 .L19
+     /tmp/ccKBUPHF.s:484    .text:0000000000000294 .L44
+     /tmp/ccKBUPHF.s:602    .text:0000000000000328 .L36
+     /tmp/ccKBUPHF.s:615    .text:0000000000000330 .L37
+     /tmp/ccKBUPHF.s:597    .text:0000000000000320 .L38
+     /tmp/ccKBUPHF.s:587    .text:0000000000000318 .L45
+     /tmp/ccKBUPHF.s:623    .text:0000000000000338 .L39
+     /tmp/ccKBUPHF.s:532    .text:00000000000002d0 .L34
+     /tmp/ccKBUPHF.s:544    .text:00000000000002e8 .L33
+     /tmp/ccKBUPHF.s:570    .text:0000000000000300 .L32
+     /tmp/ccKBUPHF.s:2292   .debug_abbrev:0000000000000000 .Ldebug_abbrev0
+     /tmp/ccKBUPHF.s:4259   .debug_str:000000000000072c .LASF119
+     /tmp/ccKBUPHF.s:4251   .debug_str:00000000000006f5 .LASF120
+     /tmp/ccKBUPHF.s:4091   .debug_str:00000000000001dd .LASF121
+     /tmp/ccKBUPHF.s:5      .text:0000000000000000 .Ltext0
+     /tmp/ccKBUPHF.s:650    .text:0000000000000340 .Letext0
+     /tmp/ccKBUPHF.s:4031   .debug_line:0000000000000000 .Ldebug_line0
+     /tmp/ccKBUPHF.s:4187   .debug_str:0000000000000518 .LASF0
+     /tmp/ccKBUPHF.s:4205   .debug_str:000000000000059d .LASF1
+     /tmp/ccKBUPHF.s:4171   .debug_str:000000000000047f .LASF2
+     /tmp/ccKBUPHF.s:4147   .debug_str:00000000000003d2 .LASF4
+     /tmp/ccKBUPHF.s:4241   .debug_str:0000000000000693 .LASF3
+     /tmp/ccKBUPHF.s:4061   .debug_str:00000000000000ed .LASF5
+     /tmp/ccKBUPHF.s:4207   .debug_str:00000000000005b0 .LASF6
+     /tmp/ccKBUPHF.s:4185   .debug_str:0000000000000505 .LASF7
+     /tmp/ccKBUPHF.s:4277   .debug_str:0000000000000867 .LASF8
+     /tmp/ccKBUPHF.s:4133   .debug_str:000000000000034d .LASF9
+     /tmp/ccKBUPHF.s:4217   .debug_str:00000000000005e8 .LASF10
+     /tmp/ccKBUPHF.s:4263   .debug_str:00000000000007fc .LASF11
+     /tmp/ccKBUPHF.s:4065   .debug_str:00000000000000ff .LASF12
+     /tmp/ccKBUPHF.s:4041   .debug_str:0000000000000061 .LASF13
+     /tmp/ccKBUPHF.s:4077   .debug_str:0000000000000168 .LASF14
+     /tmp/ccKBUPHF.s:4235   .debug_str:000000000000065e .LASF15
+     /tmp/ccKBUPHF.s:4093   .debug_str:0000000000000200 .LASF16
+     /tmp/ccKBUPHF.s:4169   .debug_str:000000000000046f .LASF28
+     /tmp/ccKBUPHF.s:4193   .debug_str:0000000000000545 .LASF37
+     /tmp/ccKBUPHF.s:4255   .debug_str:000000000000071e .LASF17
+     /tmp/ccKBUPHF.s:4295   .debug_str:000000000000092f .LASF18
+     /tmp/ccKBUPHF.s:4271   .debug_str:0000000000000836 .LASF35
+     /tmp/ccKBUPHF.s:4281   .debug_str:0000000000000887 .LASF122
+     /tmp/ccKBUPHF.s:4195   .debug_str:000000000000054f .LASF19
+     /tmp/ccKBUPHF.s:4299   .debug_str:000000000000094b .LASF21
+     /tmp/ccKBUPHF.s:4043   .debug_str:0000000000000071 .LASF20
+     /tmp/ccKBUPHF.s:4293   .debug_str:000000000000090f .LASF22
+     /tmp/ccKBUPHF.s:4055   .debug_str:00000000000000cd .LASF26
+     /tmp/ccKBUPHF.s:4057   .debug_str:00000000000000d7 .LASF23
+     /tmp/ccKBUPHF.s:4105   .debug_str:0000000000000260 .LASF30
+     /tmp/ccKBUPHF.s:4165   .debug_str:0000000000000446 .LASF46
+     /tmp/ccKBUPHF.s:4181   .debug_str:00000000000004d8 .LASF24
+     /tmp/ccKBUPHF.s:4159   .debug_str:0000000000000417 .LASF25
+     /tmp/ccKBUPHF.s:4053   .debug_str:00000000000000c4 .LASF27
+     /tmp/ccKBUPHF.s:4243   .debug_str:00000000000006a5 .LASF29
+GAS LISTING /tmp/ccKBUPHF.s 			page 23
+
+
+     /tmp/ccKBUPHF.s:4039   .debug_str:000000000000002c .LASF31
+     /tmp/ccKBUPHF.s:4121   .debug_str:00000000000002f0 .LASF32
+     /tmp/ccKBUPHF.s:4215   .debug_str:00000000000005de .LASF33
+     /tmp/ccKBUPHF.s:4123   .debug_str:00000000000002f5 .LASF34
+     /tmp/ccKBUPHF.s:4141   .debug_str:0000000000000391 .LASF123
+     /tmp/ccKBUPHF.s:4075   .debug_str:0000000000000150 .LASF124
+     /tmp/ccKBUPHF.s:4163   .debug_str:000000000000043c .LASF36
+     /tmp/ccKBUPHF.s:4265   .debug_str:000000000000080b .LASF38
+     /tmp/ccKBUPHF.s:4229   .debug_str:0000000000000635 .LASF39
+     /tmp/ccKBUPHF.s:4179   .debug_str:00000000000004b9 .LASF40
+     /tmp/ccKBUPHF.s:4283   .debug_str:00000000000008af .LASF41
+     /tmp/ccKBUPHF.s:4097   .debug_str:000000000000021c .LASF42
+     /tmp/ccKBUPHF.s:4245   .debug_str:00000000000006b1 .LASF73
+     /tmp/ccKBUPHF.s:4267   .debug_str:0000000000000810 .LASF125
+     /tmp/ccKBUPHF.s:4101   .debug_str:000000000000023f .LASF43
+     /tmp/ccKBUPHF.s:4175   .debug_str:0000000000000499 .LASF44
+     /tmp/ccKBUPHF.s:4145   .debug_str:00000000000003cd .LASF45
+     /tmp/ccKBUPHF.s:4135   .debug_str:000000000000035b .LASF47
+     /tmp/ccKBUPHF.s:4233   .debug_str:0000000000000647 .LASF48
+     /tmp/ccKBUPHF.s:4139   .debug_str:000000000000037a .LASF92
+     /tmp/ccKBUPHF.s:4257   .debug_str:0000000000000723 .LASF49
+     /tmp/ccKBUPHF.s:4107   .debug_str:0000000000000279 .LASF50
+     /tmp/ccKBUPHF.s:4131   .debug_str:0000000000000345 .LASF51
+     /tmp/ccKBUPHF.s:4103   .debug_str:0000000000000244 .LASF52
+     /tmp/ccKBUPHF.s:4261   .debug_str:00000000000007f0 .LASF53
+     /tmp/ccKBUPHF.s:4223   .debug_str:0000000000000606 .LASF54
+     /tmp/ccKBUPHF.s:4073   .debug_str:0000000000000146 .LASF55
+     /tmp/ccKBUPHF.s:4157   .debug_str:00000000000003fc .LASF56
+     /tmp/ccKBUPHF.s:4099   .debug_str:0000000000000234 .LASF57
+     /tmp/ccKBUPHF.s:4113   .debug_str:00000000000002a9 .LASF58
+     /tmp/ccKBUPHF.s:4161   .debug_str:0000000000000433 .LASF59
+     /tmp/ccKBUPHF.s:4285   .debug_str:00000000000008bc .LASF60
+     /tmp/ccKBUPHF.s:4151   .debug_str:00000000000003e2 .LASF61
+     /tmp/ccKBUPHF.s:4247   .debug_str:00000000000006c1 .LASF62
+     /tmp/ccKBUPHF.s:4047   .debug_str:0000000000000093 .LASF63
+     /tmp/ccKBUPHF.s:4109   .debug_str:0000000000000296 .LASF64
+     /tmp/ccKBUPHF.s:4225   .debug_str:0000000000000624 .LASF65
+     /tmp/ccKBUPHF.s:4209   .debug_str:00000000000005c3 .LASF66
+     /tmp/ccKBUPHF.s:4085   .debug_str:00000000000001a1 .LASF67
+     /tmp/ccKBUPHF.s:4173   .debug_str:000000000000048d .LASF68
+     /tmp/ccKBUPHF.s:4297   .debug_str:0000000000000934 .LASF69
+     /tmp/ccKBUPHF.s:4155   .debug_str:00000000000003ef .LASF70
+     /tmp/ccKBUPHF.s:4183   .debug_str:00000000000004e2 .LASF71
+     /tmp/ccKBUPHF.s:4117   .debug_str:00000000000002ce .LASF126
+     /tmp/ccKBUPHF.s:4115   .debug_str:00000000000002c6 .LASF127
+     /tmp/ccKBUPHF.s:4063   .debug_str:00000000000000f4 .LASF128
+     /tmp/ccKBUPHF.s:4059   .debug_str:00000000000000e1 .LASF72
+     /tmp/ccKBUPHF.s:4231   .debug_str:000000000000063a .LASF74
+     /tmp/ccKBUPHF.s:4127   .debug_str:000000000000031e .LASF75
+     /tmp/ccKBUPHF.s:4137   .debug_str:000000000000036e .LASF76
+     /tmp/ccKBUPHF.s:4253   .debug_str:000000000000070b .LASF77
+     /tmp/ccKBUPHF.s:4167   .debug_str:0000000000000462 .LASF78
+     /tmp/ccKBUPHF.s:4203   .debug_str:0000000000000586 .LASF129
+     /tmp/ccKBUPHF.s:4191   .debug_str:000000000000053c .LASF80
+     /tmp/ccKBUPHF.s:4119   .debug_str:00000000000002dd .LASF82
+     /tmp/ccKBUPHF.s:4087   .debug_str:00000000000001b8 .LASF79
+     /tmp/ccKBUPHF.s:4143   .debug_str:00000000000003a5 .LASF130
+GAS LISTING /tmp/ccKBUPHF.s 			page 24
+
+
+     /tmp/ccKBUPHF.s:4111   .debug_str:000000000000029b .LASF81
+     /tmp/ccKBUPHF.s:4197   .debug_str:0000000000000555 .LASF83
+     /tmp/ccKBUPHF.s:4213   .debug_str:00000000000005d5 .LASF84
+     /tmp/ccKBUPHF.s:4079   .debug_str:0000000000000174 .LASF85
+     /tmp/ccKBUPHF.s:4239   .debug_str:000000000000068b .LASF86
+     /tmp/ccKBUPHF.s:4149   .debug_str:00000000000003d9 .LASF87
+     /tmp/ccKBUPHF.s:4081   .debug_str:000000000000017a .LASF88
+     /tmp/ccKBUPHF.s:4269   .debug_str:0000000000000829 .LASF89
+     /tmp/ccKBUPHF.s:4289   .debug_str:00000000000008ea .LASF90
+     /tmp/ccKBUPHF.s:4049   .debug_str:000000000000009b .LASF131
+     /tmp/ccKBUPHF.s:4287   .debug_str:00000000000008d6 .LASF132
+     /tmp/ccKBUPHF.s:4051   .debug_str:00000000000000b5 .LASF91
+     /tmp/ccKBUPHF.s:4291   .debug_str:00000000000008f8 .LASF93
+     /tmp/ccKBUPHF.s:4067   .debug_str:000000000000010f .LASF94
+     /tmp/ccKBUPHF.s:4069   .debug_str:0000000000000114 .LASF95
+     /tmp/ccKBUPHF.s:4211   .debug_str:00000000000005ce .LASF96
+     /tmp/ccKBUPHF.s:4273   .debug_str:0000000000000846 .LASF97
+     /tmp/ccKBUPHF.s:4275   .debug_str:0000000000000862 .LASF98
+     /tmp/ccKBUPHF.s:4045   .debug_str:0000000000000079 .LASF99
+     /tmp/ccKBUPHF.s:4035   .debug_str:000000000000000f .LASF100
+     /tmp/ccKBUPHF.s:4177   .debug_str:000000000000049e .LASF101
+     /tmp/ccKBUPHF.s:4089   .debug_str:00000000000001c6 .LASF102
+     /tmp/ccKBUPHF.s:4125   .debug_str:0000000000000306 .LASF103
+     /tmp/ccKBUPHF.s:4237   .debug_str:0000000000000674 .LASF104
+     /tmp/ccKBUPHF.s:4071   .debug_str:000000000000012e .LASF105
+     /tmp/ccKBUPHF.s:4033   .debug_str:0000000000000000 .LASF106
+     /tmp/ccKBUPHF.s:4249   .debug_str:00000000000006de .LASF107
+     /tmp/ccKBUPHF.s:4279   .debug_str:0000000000000877 .LASF133
+     /tmp/ccKBUPHF.s:4221   .debug_str:0000000000000601 .LASF108
+     /tmp/ccKBUPHF.s:4083   .debug_str:0000000000000182 .LASF110
+     /tmp/ccKBUPHF.s:4227   .debug_str:0000000000000630 .LASF109
+     /tmp/ccKBUPHF.s:4201   .debug_str:0000000000000573 .LASF111
+     /tmp/ccKBUPHF.s:465    .text:0000000000000278 .LFB33
+     /tmp/ccKBUPHF.s:637    .text:0000000000000340 .LFE33
+     /tmp/ccKBUPHF.s:3608   .debug_loc:0000000000000000 .LLST21
+     /tmp/ccKBUPHF.s:3989   .debug_ranges:0000000000000000 .Ldebug_ranges0
+     /tmp/ccKBUPHF.s:4153   .debug_str:00000000000003ea .LASF112
+     /tmp/ccKBUPHF.s:3655   .debug_loc:00000000000000b4 .LLST22
+     /tmp/ccKBUPHF.s:488    .text:0000000000000294 .LBB90
+     /tmp/ccKBUPHF.s:498    .text:00000000000002a0 .LBE90
+     /tmp/ccKBUPHF.s:3666   .debug_loc:00000000000000ea .LLST23
+     /tmp/ccKBUPHF.s:519    .text:00000000000002bc .LBB92
+     /tmp/ccKBUPHF.s:3690   .debug_loc:000000000000013c .LLST24
+     /tmp/ccKBUPHF.s:3701   .debug_loc:0000000000000172 .LLST25
+     /tmp/ccKBUPHF.s:536    .text:00000000000002d4 .LBB94
+     /tmp/ccKBUPHF.s:546    .text:00000000000002e8 .LBE94
+     /tmp/ccKBUPHF.s:3708   .debug_loc:0000000000000195 .LLST26
+     /tmp/ccKBUPHF.s:540    .text:00000000000002dc .LVL48
+     /tmp/ccKBUPHF.s:543    .text:00000000000002e8 .LVL49
+     /tmp/ccKBUPHF.s:550    .text:00000000000002e8 .LBB97
+     /tmp/ccKBUPHF.s:558    .text:00000000000002ec .LBE97
+     /tmp/ccKBUPHF.s:3715   .debug_loc:00000000000001b8 .LLST27
+     /tmp/ccKBUPHF.s:565    .text:00000000000002fc .LVL51
+     /tmp/ccKBUPHF.s:294    .text:0000000000000174 .LFB32
+     /tmp/ccKBUPHF.s:459    .text:0000000000000278 .LFE32
+     /tmp/ccKBUPHF.s:3722   .debug_loc:00000000000001db .LLST11
+     /tmp/ccKBUPHF.s:3779   .debug_loc:00000000000002b7 .LLST12
+GAS LISTING /tmp/ccKBUPHF.s 			page 25
+
+
+     /tmp/ccKBUPHF.s:4199   .debug_str:000000000000056e .LASF113
+     /tmp/ccKBUPHF.s:3790   .debug_loc:00000000000002ed .LLST13
+     /tmp/ccKBUPHF.s:346    .text:00000000000001d4 .LBB67
+     /tmp/ccKBUPHF.s:3797   .debug_loc:0000000000000310 .LLST14
+     /tmp/ccKBUPHF.s:3808   .debug_loc:0000000000000346 .LLST15
+     /tmp/ccKBUPHF.s:3819   .debug_loc:000000000000037c .LLST16
+     /tmp/ccKBUPHF.s:348    .text:00000000000001d4 .LBB69
+     /tmp/ccKBUPHF.s:357    .text:00000000000001e8 .LBE69
+     /tmp/ccKBUPHF.s:3830   .debug_loc:00000000000003b2 .LLST17
+     /tmp/ccKBUPHF.s:352    .text:00000000000001dc .LVL28
+     /tmp/ccKBUPHF.s:355    .text:00000000000001e8 .LVL29
+     /tmp/ccKBUPHF.s:358    .text:00000000000001e8 .LBB71
+     /tmp/ccKBUPHF.s:365    .text:00000000000001f0 .LBE71
+     /tmp/ccKBUPHF.s:3838   .debug_loc:00000000000003d6 .LLST18
+     /tmp/ccKBUPHF.s:3846   .debug_loc:00000000000003fa .LLST19
+     /tmp/ccKBUPHF.s:3853   .debug_loc:000000000000041d .LLST20
+     /tmp/ccKBUPHF.s:387    .text:0000000000000214 .LVL34
+     /tmp/ccKBUPHF.s:397    .text:0000000000000228 .LVL36
+     /tmp/ccKBUPHF.s:4219   .debug_str:00000000000005f7 .LASF114
+     /tmp/ccKBUPHF.s:4189   .debug_str:0000000000000525 .LASF115
+     /tmp/ccKBUPHF.s:145    .text:00000000000000a0 .LFB31
+     /tmp/ccKBUPHF.s:188    .text:00000000000000e8 .LFE31
+     /tmp/ccKBUPHF.s:3860   .debug_loc:0000000000000440 .LLST6
+     /tmp/ccKBUPHF.s:163    .text:00000000000000c0 .LBB49
+     /tmp/ccKBUPHF.s:174    .text:00000000000000d4 .LBE49
+     /tmp/ccKBUPHF.s:3878   .debug_loc:000000000000048c .LLST7
+     /tmp/ccKBUPHF.s:169    .text:00000000000000c8 .LVL12
+     /tmp/ccKBUPHF.s:172    .text:00000000000000d4 .LVL13
+     /tmp/ccKBUPHF.s:162    .text:00000000000000c0 .LVL11
+     /tmp/ccKBUPHF.s:4129   .debug_str:000000000000032e .LASF116
+     /tmp/ccKBUPHF.s:10     .text:0000000000000000 .LFB29
+     /tmp/ccKBUPHF.s:129    .text:00000000000000a0 .LFE29
+     /tmp/ccKBUPHF.s:3885   .debug_loc:00000000000004af .LLST0
+     /tmp/ccKBUPHF.s:3903   .debug_loc:00000000000004fb .LLST1
+     /tmp/ccKBUPHF.s:41     .text:0000000000000030 .LBB40
+     /tmp/ccKBUPHF.s:3910   .debug_loc:000000000000051e .LLST2
+     /tmp/ccKBUPHF.s:3921   .debug_loc:0000000000000554 .LLST3
+     /tmp/ccKBUPHF.s:50     .text:0000000000000038 .LBB42
+     /tmp/ccKBUPHF.s:60     .text:000000000000004c .LBE42
+     /tmp/ccKBUPHF.s:3928   .debug_loc:0000000000000577 .LLST4
+     /tmp/ccKBUPHF.s:54     .text:0000000000000040 .LVL3
+     /tmp/ccKBUPHF.s:57     .text:000000000000004c .LVL4
+     /tmp/ccKBUPHF.s:72     .text:0000000000000054 .LBB46
+     /tmp/ccKBUPHF.s:82     .text:0000000000000060 .LBE46
+     /tmp/ccKBUPHF.s:3935   .debug_loc:000000000000059a .LLST5
+     /tmp/ccKBUPHF.s:237    .text:0000000000000118 .LFB27
+     /tmp/ccKBUPHF.s:288    .text:0000000000000174 .LFE27
+     /tmp/ccKBUPHF.s:4095   .debug_str:0000000000000216 .LASF117
+     /tmp/ccKBUPHF.s:3944   .debug_loc:00000000000005bf .LLST9
+     /tmp/ccKBUPHF.s:256    .text:0000000000000134 .LBB54
+     /tmp/ccKBUPHF.s:268    .text:000000000000014c .LBE54
+     /tmp/ccKBUPHF.s:3958   .debug_loc:00000000000005f8 .LLST10
+     /tmp/ccKBUPHF.s:261    .text:000000000000013c .LVL20
+     /tmp/ccKBUPHF.s:264    .text:0000000000000148 .LVL21
+     /tmp/ccKBUPHF.s:272    .text:0000000000000158 .LVL23
+     /tmp/ccKBUPHF.s:4037   .debug_str:0000000000000015 .LASF118
+     /tmp/ccKBUPHF.s:194    .text:00000000000000e8 .LFB25
+GAS LISTING /tmp/ccKBUPHF.s 			page 26
+
+
+     /tmp/ccKBUPHF.s:229    .text:0000000000000118 .LFE25
+     /tmp/ccKBUPHF.s:209    .text:0000000000000100 .LBB52
+     /tmp/ccKBUPHF.s:216    .text:0000000000000108 .LBE52
+     /tmp/ccKBUPHF.s:3967   .debug_loc:000000000000061d .LLST8
+     /tmp/ccKBUPHF.s:468    .text:0000000000000278 .LVL42
+     /tmp/ccKBUPHF.s:481    .text:0000000000000290 .LVL43
+     /tmp/ccKBUPHF.s:483    .text:0000000000000294 .LVL44
+     /tmp/ccKBUPHF.s:586    .text:0000000000000318 .LVL53
+     /tmp/ccKBUPHF.s:612    .text:000000000000032c .LVL56
+     /tmp/ccKBUPHF.s:614    .text:0000000000000330 .LVL57
+     /tmp/ccKBUPHF.s:617    .text:0000000000000334 .LVL58
+     /tmp/ccKBUPHF.s:582    .text:0000000000000310 .LVL52
+     /tmp/ccKBUPHF.s:622    .text:0000000000000338 .LVL59
+     /tmp/ccKBUPHF.s:496    .text:00000000000002a0 .LVL45
+     /tmp/ccKBUPHF.s:601    .text:0000000000000328 .LVL55
+     /tmp/ccKBUPHF.s:525    .text:00000000000002c4 .LVL46
+     /tmp/ccKBUPHF.s:596    .text:0000000000000320 .LVL54
+     /tmp/ccKBUPHF.s:535    .text:00000000000002d4 .LVL47
+     /tmp/ccKBUPHF.s:556    .text:00000000000002ec .LVL50
+     /tmp/ccKBUPHF.s:297    .text:0000000000000174 .LVL24
+     /tmp/ccKBUPHF.s:317    .text:00000000000001a0 .LVL25
+     /tmp/ccKBUPHF.s:320    .text:00000000000001a4 .LVL26
+     /tmp/ccKBUPHF.s:381    .text:0000000000000208 .LVL32
+     /tmp/ccKBUPHF.s:383    .text:000000000000020c .LVL33
+     /tmp/ccKBUPHF.s:427    .text:000000000000025c .LVL38
+     /tmp/ccKBUPHF.s:438    .text:0000000000000268 .LVL39
+     /tmp/ccKBUPHF.s:447    .text:0000000000000270 .LVL40
+     /tmp/ccKBUPHF.s:456    .text:0000000000000274 .LVL41
+     /tmp/ccKBUPHF.s:421    .text:0000000000000250 .LVL37
+     /tmp/ccKBUPHF.s:395    .text:0000000000000220 .LVL35
+     /tmp/ccKBUPHF.s:345    .text:00000000000001d4 .LVL27
+     /tmp/ccKBUPHF.s:375    .text:0000000000000200 .LVL31
+     /tmp/ccKBUPHF.s:363    .text:00000000000001f0 .LVL30
+     /tmp/ccKBUPHF.s:148    .text:00000000000000a0 .LVL10
+     /tmp/ccKBUPHF.s:183    .text:00000000000000e0 .LVL14
+     /tmp/ccKBUPHF.s:16     .text:0000000000000000 .LVL0
+     /tmp/ccKBUPHF.s:37     .text:0000000000000030 .LVL1
+     /tmp/ccKBUPHF.s:122    .text:0000000000000094 .LVL9
+     /tmp/ccKBUPHF.s:67     .text:0000000000000054 .LVL5
+     /tmp/ccKBUPHF.s:93     .text:000000000000006c .LVL7
+     /tmp/ccKBUPHF.s:101    .text:000000000000007c .LVL8
+     /tmp/ccKBUPHF.s:49     .text:0000000000000038 .LVL2
+     /tmp/ccKBUPHF.s:80     .text:0000000000000060 .LVL6
+     /tmp/ccKBUPHF.s:240    .text:0000000000000118 .LVL18
+     /tmp/ccKBUPHF.s:255    .text:0000000000000134 .LVL19
+     /tmp/ccKBUPHF.s:266    .text:000000000000014c .LVL22
+     /tmp/ccKBUPHF.s:208    .text:0000000000000100 .LVL16
+     /tmp/ccKBUPHF.s:214    .text:0000000000000108 .LVL17
+     /tmp/ccKBUPHF.s:655    .debug_info:0000000000000000 .Ldebug_info0
+     /tmp/ccKBUPHF.s:40     .text:0000000000000030 .LBB39
+     /tmp/ccKBUPHF.s:69     .text:0000000000000054 .LBE39
+     /tmp/ccKBUPHF.s:85     .text:0000000000000064 .LBB48
+     /tmp/ccKBUPHF.s:109    .text:0000000000000084 .LBE48
+     /tmp/ccKBUPHF.s:62     .text:000000000000004c .LBE40
+     /tmp/ccKBUPHF.s:87     .text:0000000000000064 .LBB45
+     /tmp/ccKBUPHF.s:108    .text:0000000000000084 .LBE45
+     /tmp/ccKBUPHF.s:339    .text:00000000000001c4 .LBB66
+GAS LISTING /tmp/ccKBUPHF.s 			page 27
+
+
+     /tmp/ccKBUPHF.s:398    .text:0000000000000228 .LBE66
+     /tmp/ccKBUPHF.s:431    .text:000000000000025c .LBB75
+     /tmp/ccKBUPHF.s:442    .text:0000000000000268 .LBE75
+     /tmp/ccKBUPHF.s:377    .text:0000000000000200 .LBE67
+     /tmp/ccKBUPHF.s:432    .text:000000000000025c .LBB74
+     /tmp/ccKBUPHF.s:441    .text:0000000000000268 .LBE74
+     /tmp/ccKBUPHF.s:486    .text:0000000000000294 .LBB89
+     /tmp/ccKBUPHF.s:501    .text:00000000000002a4 .LBE89
+     /tmp/ccKBUPHF.s:517    .text:00000000000002bc .LBB100
+     /tmp/ccKBUPHF.s:566    .text:00000000000002fc .LBE100
+     /tmp/ccKBUPHF.s:590    .text:0000000000000318 .LBB101
+     /tmp/ccKBUPHF.s:618    .text:0000000000000334 .LBE101
+     /tmp/ccKBUPHF.s:630    .text:0000000000000338 .LBB102
+     /tmp/ccKBUPHF.s:634    .text:0000000000000340 .LBE102
+     /tmp/ccKBUPHF.s:548    .text:00000000000002e8 .LBE92
+     /tmp/ccKBUPHF.s:591    .text:0000000000000318 .LBB99
+     /tmp/ccKBUPHF.s:609    .text:0000000000000328 .LBE99
+     /tmp/ccKBUPHF.s:132    .gcc_except_table:0000000000000000 .LLSDA29
+
+UNDEFINED SYMBOLS
+_ZN15MemoryAllocator15createAllocatorEv
+_ZN15MemoryAllocator7deallocEPv
+__gxx_personality_v0
+_ZN15MemoryAllocator5allocEm
+_ZN3TCB7runningE
+_ZN9Scheduler3getEv
+_ZN3TCB13contextSwitchEPNS_7ContextES1_
+_ZN9Scheduler3putEP3TCB
